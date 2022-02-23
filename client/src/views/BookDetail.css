@@ -1,0 +1,8 @@
+#highlighted-book {
+    width: 70vw;
+    display: flex;
+    margin: auto;
+    border-style: solid;
+    align-items: center;
+    justify-content: center;
+}

@@ -3,7 +3,7 @@
     width: 70vw;
     height: auto;
     margin: auto;
-    grid-template-columns: repeat(3, 30%);
+    grid-template-columns: repeat(4, 20%);
     grid-gap: 5%;
     padding-bottom: 30px;
 }
@@ -14,7 +14,7 @@
 }
 
 .book-thumb {
-    width: 100px;
+    width: 150px;
     height: auto;
     margin-bottom: 5px;
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import "./BookList.css";
 
 export default function BookList(props) {
@@ -10,13 +11,11 @@ export default function BookList(props) {
   return (
     <div id="book-grid">
         {props.books.map(book => (
-          <div className="book-box" key={book.id}>
+          <div className="book-box" key={book.bookid}>
             <img className="book-thumb" src={book.imgurl}></img>
             <h3>{book.title}</h3>
             <p>{book.authors}</p>
-            <button onClick={e => handleViewBook(book.id) } className="btn btn-primary">
-             More info
-            </button>
+            <Link className="btn btn-primary" to={'/books/'+book.bookid}>View details</Link>
           </div>
         ))}
     </div>

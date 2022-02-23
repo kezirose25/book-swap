@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import {Routes, Route} from 'react-router-dom';
 import './App.css';
-import BookList from './components/BookList.js'
+import Navbar from './components/Navbar.js';
+
+import BookDetail from './views/BookDetail.js';
+import BookList from './views/BookList.js';
+import Error404View from './views/Error404View.js';
+import HomeView from './views/HomeView.js';
+import MyBooks from './views/MyBooks.js';
+import MyMessages from './views/MyMessages.js';
+import NewBookForm from './views/NewBookForm.js';
 
 function App() {
-  const [date, setDate] = useState("");
+  // const [date, setDate] = useState("");
   const [books, setBooks] = useState([]);
-  const [highlightedBook, setHighlightedBook] = useState("");
+  const [currentUser, setCurrentUser] = useState(1); // Proxy for logged-in user
   
-  const updateDateTime = () => {
-    let currentdate =  new Date(); 
-    let updatedDateTime = currentdate.getDate() + "/" + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + " @ "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-    setDate(updatedDateTime);
-  }
+  // const updateDateTime = () => {
+  //   let currentdate =  new Date(); 
+  //   let updatedDateTime = currentdate.getDate() + "/" + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + " @ "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+  //   setDate(updatedDateTime);
+  // }
 
   useEffect(() => {
     getBooks();
@@ -33,34 +41,32 @@ function App() {
     }
   }
 
+  // ADD new book
+  function addNewBook(newBook) {
+    newBook.addedby = currentUser;
+    console.log(newBook);
+    console.log('It worked!')
+  }
+
   return (
     <div className="App">
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="viewallbooks-tab" data-bs-toggle="tab" data-bs-target="#viewallbooks" type="button" role="tab" aria-controls="home" aria-selected="true">View all books</button>
-        </li>
-  
-        <li class="nav-item" role="presentation">
-        <button class="nav-link" id="mybooks-tab" data-bs-toggle="tab" data-bs-target="#mybooks" type="button" role="tab" aria-controls="profile" aria-selected="false">My Books</button>
-        </li>
-        
-        <li class="nav-item" role="presentation">
-        <button class="nav-link" id="mymessages-tab" data-bs-toggle="tab" data-bs-target="#mymessages" type="button" role="tab" aria-controls="contact" aria-selected="false">My Messages</button>
-        </li>
-      </ul>
+        <Navbar />
 
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="viewallbooks" role="tabpanel" aria-labelledby="viewallbooks-tab"><BookList books={books}/></div>
-      <div class="tab-pane fade" id="mybooks" role="tabpanel" aria-labelledby="mybooks-tab"><h1>This is my books</h1></div>
-      <div class="tab-pane fade" id="mymessages" role="tabpanel" aria-labelledby="mymessages-tab"><h1>This is my messages</h1></div>
-</div>
-        
+        <Routes>
+                <Route path="/" element={<HomeView />} />
+                <Route path="books" element={<BookList books={books}/>} />
+                <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser}/>} />
+                <Route path="mybooks/addnew" element={<NewBookForm addBookCB={(newBook) => addNewBook(newBook)}/>} />
+                <Route path="mymessages" element={<MyMessages />} />
+                <Route path="books/:id" element={<BookDetail books={books} />} />
 
-      <p>
-          
+                <Route path="*" element={<Error404View />} />
+        </Routes>
+
+      {/* <p>
           <button onClick={() => updateDateTime()}>Update time & date</button>
           Current date/time: {date}
-      </p>
+      </p> */}
     </div>
   );
 }
