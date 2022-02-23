@@ -1,0 +1,16 @@
+#new-book-form {
+    width: 60vw;
+    margin: auto;
+}
+
+form {
+    text-align: left;
+}
+
+#cover-img {
+    width: 230px;
+}
+
+#form-fields {
+    margin-right: 30px;
+}

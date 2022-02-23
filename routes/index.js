@@ -34,9 +34,9 @@ router.get("/books/:book_id", async (req, res) => {
 
 // Add new book
 router.post("/books", async (req, res) => {
-  let { addedby, title, authors } = req.body;
-  let sql = `insert into books (addedby, title, authors) values (${addedby}, '${title}', '${authors}')`;
-
+  let { addedby, title, authors, imgurl, genre, summary, bookcondition } = req.body;
+  let sql = `insert into books (addedby, title, authors, imgurl, genre, summary, bookcondition) 
+            values (${addedby}, '${title}', '${authors}', '${imgurl}', '${genre}', '${summary}', '${bookcondition}')`;
   try {
     await db(sql);
     let result = await db("select * from books");
@@ -46,5 +46,27 @@ router.post("/books", async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+
+
+// Delete book
+router.delete("/books/:book_id", async (req, res) => {
+  let id = req.params.book_id;
+  let sqlCheckID = `SELECT * FROM books WHERE bookid = ${id}`;
+  let sqlDelete = `DELETE FROM books WHERE bookid = ${id}`;
+  try {
+    let result = await db(sqlCheckID);
+    if (result.data.length === 0) {
+      res.status(404).send({ error: "Book not found!" });
+    } else {
+      await db(sqlDelete);
+      let result = await db("select * from books");
+      let books = result.data;
+      res.status(201).send(books);
+    }
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
 
 module.exports = router;

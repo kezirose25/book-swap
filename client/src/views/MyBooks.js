@@ -5,6 +5,10 @@ import {Link} from 'react-router-dom';
 export default function MyBooks(props) {
   let usersBooks = props.books.filter(book => book.addedby === props.currentUser);
 
+    const handleDelete = (bookID) => {
+        props.deleteBook(bookID)
+    }
+
   return (
     <div id="my-books">
         <h3>My books</h3>
@@ -16,6 +20,7 @@ export default function MyBooks(props) {
                     <th scope="col">Genre</th>
                     <th scope="col">Condition</th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
   
@@ -26,7 +31,8 @@ export default function MyBooks(props) {
                     <td>{book.authors}</td>
                     <td>{book.genre}</td>
                     <td>{book.bookcondition}</td>
-                    <td>Edit Listing</td>
+                    <td><Link to="/mybooks/addnew" className="btn btn-primary">Edit</Link></td>
+                    <td><button className="btn btn-primary" onClick={e => handleDelete(book.bookid)}>Delete</button></td>
                     </tr>
                 ))}
                 

@@ -42,11 +42,44 @@ function App() {
   }
 
   // ADD new book
-  function addNewBook(newBook) {
+  const addNewBook = async (newBook) => {
     newBook.addedby = currentUser;
-    console.log(newBook);
-    console.log('It worked!')
+    let options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newBook)
+    };
+    try {
+      let response = await fetch("/books", options);
+      if (response.ok) {
+        let books = await response.json();
+        setBooks(books);
+      } else {
+        console.log(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`Server error: ${err.message}`);
+    }
   }
+
+  // DELETE book
+  const deleteBook = async id => {
+    let options = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    };
+    try {
+      let response = await fetch(`/books/${id}`, options);
+      if (response.ok) {
+        let books = await response.json();
+        setBooks(books);
+      } else {
+        console.log(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`Server error: ${err.message}`);
+    }
+  };
 
   return (
     <div className="App">
@@ -54,8 +87,8 @@ function App() {
 
         <Routes>
                 <Route path="/" element={<HomeView />} />
-                <Route path="books" element={<BookList books={books}/>} />
-                <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser}/>} />
+                <Route path="books" element={<BookList books={books} />} />
+                <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)}/>} />
                 <Route path="mybooks/addnew" element={<NewBookForm addBookCB={(newBook) => addNewBook(newBook)}/>} />
                 <Route path="mymessages" element={<MyMessages />} />
                 <Route path="books/:id" element={<BookDetail books={books} />} />

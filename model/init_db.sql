@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS messages;
 
 CREATE TABLE `Books` (
 	`bookid` int NOT NULL AUTO_INCREMENT,
@@ -12,7 +13,21 @@ CREATE TABLE `Books` (
 	PRIMARY KEY (`bookid`)
 );
 
+CREATE TABLE `Messages` (
+	`messageid` int NOT NULL AUTO_INCREMENT,
+	`messagesubject` varchar(255) NOT NULL,
+	`body` varchar(255) NOT NULL,
+	`sender` int(255) NOT NULL,
+	`recipient` int(255) NOT NULL,
+	`timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`messageid`)
+);
+
 ALTER TABLE `Books` ADD CONSTRAINT `Books_fk0` FOREIGN KEY (`addedby`) REFERENCES `Users`(`userid`);
+
+ALTER TABLE `Messages` ADD CONSTRAINT `Messages_fk0` FOREIGN KEY (`sender`) REFERENCES `Users`(`userid`);
+
+ALTER TABLE `Messages` ADD CONSTRAINT `Messages_fk1` FOREIGN KEY (`recipient`) REFERENCES `Users`(`userid`);
 
 INSERT INTO Books (addedby, title, authors, imgurl, genre, summary, bookcondition) VALUES 
 (1, "Red-Handed", "Peter Schweizer", "https://storage.googleapis.com/du-prd/books/images/9780063061149.jpg", "Politics", "The author of “Profiles in Corruption” portrays a conspiracy of how the Chinese government might infiltrate American institutions.", "Excellent used condition"),
@@ -26,3 +41,8 @@ INSERT INTO Books (addedby, title, authors, imgurl, genre, summary, bookconditio
 (2, "Verity", "Colleen Hoover", "https://storage.googleapis.com/du-prd/books/images/9781791392796.jpg", "Thriller", "Lowen Ashleigh is hired by the husband of an injured writer to complete her popular series and uncovers a horrifying truth.", "Brand new"),
 (2, "The Seven Husbands of Evelyn Hugo", "Taylor Jenkins Reid", "https://storage.googleapis.com/du-prd/books/images/9781501161933.jpg", "Historical Fiction", "A movie icon recounts stories of her loves and career to a struggling magazine writer.", "Excellent used condition");
 
+INSERT INTO Messages (messagesubject, body, sender, recipient) VALUES
+("Subject 1", "Body 1", 1, 2),
+("Subject 2", "Body 2", 1, 2),
+("Subject 3", "Body 3", 2, 1),
+("Subject 4", "Body 4", 2, 1);
