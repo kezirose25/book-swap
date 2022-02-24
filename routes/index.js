@@ -7,19 +7,11 @@ router.get('/', function(req, res, next) {
   res.send({ title: 'Express' });
 });
 
+// ROUTES FOR BOOKS TABLE
+
 // Get all books
 router.get("/books", (req, res) => {
   db("SELECT * FROM books;")
-    .then(results => {
-      res.send(results.data);
-    })
-    .catch(err => res.status(500).send(err));
-});
-
-// Get all messages
-router.get("/messages", (req, res) => {
-  let sqlGetMessages = `SELECT * from messages`
-  db(sqlGetMessages)
     .then(results => {
       res.send(results.data);
     })
@@ -53,13 +45,12 @@ router.post("/books", async (req, res) => {
   try {
     await db(sql);
     let result = await db("select * from books");
-    let items = result.data;
-    res.status(201).send(items);
+    let books = result.data;
+    res.status(201).send(books);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
-
 
 // Delete book
 router.delete("/books/:book_id", async (req, res) => {
@@ -76,6 +67,33 @@ router.delete("/books/:book_id", async (req, res) => {
       let books = result.data;
       res.status(201).send(books);
     }
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+// ROUTES FOR MESSAGES TABLE
+
+// Get all messages
+router.get("/messages", (req, res) => {
+  let sqlGetMessages = `SELECT * from messages`
+  db(sqlGetMessages)
+    .then(results => {
+      res.send(results.data);
+    })
+    .catch(err => res.status(500).send(err));
+});
+
+// Add new message
+router.post("/messages", async (req, res) => {
+  let { messagesubject, body, sender, recipient } = req.body;
+  let sql = `insert into messages (messagesubject, body, sender, recipient) 
+            values ('${messagesubject}', '${body}', ${sender}, ${recipient})`;
+  try {
+    await db(sql);
+    let result = await db("select * from messages");
+    let messages = result.data;
+    res.status(201).send(messages);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }

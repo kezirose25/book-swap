@@ -1,12 +1,15 @@
 #highlighted-book {
     width: 60vw;
-    display: flex;
+    background-color: #f8f9fa;
     margin: auto;
-    align-items: center;
-    justify-content: center;
 }
 
 #bookimg {
     width: 30%;
     height: auto;
+}
+
+#uploadedby {
+    border-style: solid;
+    border-color: blue;
 }

@@ -75,6 +75,28 @@ function App() {
     }
   }
 
+  // ADD new message
+  const addNewMessage = async (newMessage) => {
+    newMessage.sender = currentUser;
+    let options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newMessage)
+    };
+    try {
+      let response = await fetch("/messages", options);
+      if (response.ok) {
+        let messages = await response.json();
+        setMessages(messages);
+      } else {
+        console.log(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`Server error: ${err.message}`);
+    }
+  }
+
+
   // DELETE book
   const deleteBook = async id => {
     let options = {
@@ -94,6 +116,27 @@ function App() {
     }
   };
 
+// DELETE message
+const deleteMessage = async id => {
+  console.log('The delete message got called in App.js')
+  let options = {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" }
+  };
+  try {
+    let response = await fetch(`/messages/${id}`, options);
+    if (response.ok) {
+      let messages = await response.json();
+      setMessages(messages);
+    } else {
+      console.log(`Server error: ${response.status} ${response.statusText}`);
+    }
+  } catch (err) {
+    console.log(`Server error: ${err.message}`);
+  }
+};
+
+
   return (
     <div className="App">
         <Navbar />
@@ -106,8 +149,8 @@ function App() {
                 <Route path="books" element={<BookList books={books} />} />
                 <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)}/>} />
                 <Route path="mybooks/addnew" element={<NewBookForm addBookCB={(newBook) => addNewBook(newBook)}/>} />
-                <Route path="mymessages" element={<MyMessages currentUser={currentUser} messages={messages} />} />
-                <Route path="books/:id" element={<BookDetail books={books} />} />
+                <Route path="mymessages" element={<MyMessages currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)}/>} />
+                <Route path="books/:id" element={<BookDetail books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
                 <Route path="*" element={<Error404View />} />
         </Routes>
 

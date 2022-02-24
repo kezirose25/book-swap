@@ -10,13 +10,17 @@ export default function MyMessages(props) {
         setOpenMessage(openedMessage[0]);
        }
 
+    const deleteThisMessage = (id) => {
+        props.deleteMessage(id);
+    }
+
   return (
     <div id="my-messages">
         <h1>SwapMail</h1>
         
         <div id="mail-container" className="mt-5">
         <div className="me-5">
-        <MailList messages={props.messages} currentUser={props.currentUser} openMessage={(id) => openNewMessage(id)}/>
+        <MailList messages={props.messages} currentUser={props.currentUser} openMessage={(id) => openNewMessage(id)} deleteMessageCB={(id) => deleteThisMessage(id)}/>
         </div>
 
         <div id="message-pane">

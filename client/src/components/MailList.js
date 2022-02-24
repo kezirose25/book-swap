@@ -9,6 +9,10 @@ export default function MailList(props) {
         props.openMessage(id);
     }
 
+    const handleDelete = (id) => {
+        props.deleteMessageCB(id)
+    }
+
   return (
         <div id="mailbox">
         <nav>
@@ -38,7 +42,7 @@ export default function MailList(props) {
                             <td>{message.messagesubject}</td>
                             <td>{message.timestamp}</td>
                             <td><button onClick={e => handleClick(message.messageid)} className="btn btn-primary btn-sm">View</button></td>
-                            <td><button className="btn btn-primary btn-sm"> Delete</button></td>
+                            <td><button onClick={e => handleDelete(message.messageid)} className="btn btn-primary btn-sm"> Delete</button></td>
                             </tr>
                         ))}
                     </tbody>
@@ -64,7 +68,7 @@ export default function MailList(props) {
                         <td>{message.messagesubject}</td>
                         <td>{message.timestamp}</td>
                         <td><button onClick={e => handleClick(message.messageid)} className="btn btn-primary btn-sm">View</button></td>
-                        <td><button className="btn btn-primary btn-sm">Delete</button></td>
+                        <td><button onClick={e => handleDelete(message.messageid)} className="btn btn-primary btn-sm">Delete</button></td>
                         </tr>
                     ))}
                     
