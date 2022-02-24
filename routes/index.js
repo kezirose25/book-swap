@@ -76,7 +76,10 @@ router.delete("/books/:book_id", async (req, res) => {
 
 // Get all messages
 router.get("/messages", (req, res) => {
-  let sqlGetMessages = `SELECT * from messages`
+  let sqlGetMessages = `SELECT Messages.*, fromUsers.username AS sendername, toUsers.username AS recipientname
+                        FROM Messages 
+                        JOIN (users AS fromUsers) ON (Messages.Sender = fromUsers.userid) 
+                        JOIN (users AS toUsers) ON (Messages.Recipient = toUsers.userid)`
   db(sqlGetMessages)
     .then(results => {
       res.send(results.data);

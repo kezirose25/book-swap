@@ -7,7 +7,8 @@ import "./BookDetail.css";
 
 export default function BookDetail(props) {
   const [highlightedBook, setHighlightedBook] = useState({});
-  const [messageOpen, setMessageOpen] = useState(false)
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [prefilled, setPrefilled] = useState("bookDetailPage")
   let { id } = useParams();  // get user ID from URL
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function BookDetail(props) {
 
         </div>
            
-        {messageOpen && <NewMessage highlightedBook={highlightedBook} closeMessage={e => closeMessage(e)} sendMessage={message => sendMessage(message)}/>}
+        {messageOpen && <NewMessage highlightedBook={highlightedBook} closeMessage={e => closeMessage(e)} sendMessage={message => sendMessage(message)} prefilled={prefilled}/>}
 
     </div>
   );

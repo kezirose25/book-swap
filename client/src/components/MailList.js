@@ -38,7 +38,7 @@ export default function MailList(props) {
                     <tbody>
                         {myReceivedItems.map(message => (
                             <tr key={message.messageid}>
-                            <td>{message.sender}</td>
+                            <td>{message.sendername}</td>
                             <td>{message.messagesubject}</td>
                             <td>{message.timestamp}</td>
                             <td><button onClick={e => handleClick(message.messageid)} className="btn btn-primary btn-sm">View</button></td>
@@ -64,7 +64,7 @@ export default function MailList(props) {
                 <tbody>
                     {mySentItems.map(message => (
                         <tr key={message.messageid}>
-                        <td>{message.recipient}</td>
+                        <td>{message.recipientname}</td>
                         <td>{message.messagesubject}</td>
                         <td>{message.timestamp}</td>
                         <td><button onClick={e => handleClick(message.messageid)} className="btn btn-primary btn-sm">View</button></td>

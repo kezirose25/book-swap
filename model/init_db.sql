@@ -1,5 +1,13 @@
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE `Users` (
+	`userid` int NOT NULL AUTO_INCREMENT,
+	`username` varchar(10) UNIQUE,
+	`wishlist` varchar(255) NOT NULL,
+	PRIMARY KEY (`userid`)
+);
 
 CREATE TABLE `Books` (
 	`bookid` int NOT NULL AUTO_INCREMENT,
@@ -22,6 +30,10 @@ CREATE TABLE `Messages` (
 	`timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`messageid`)
 );
+
+INSERT INTO Users (username, wishlist) VALUES
+("User1", "I want 50 books"),
+("User2", "Looking for non-fiction books.");
 
 ALTER TABLE `Books` ADD CONSTRAINT `Books_fk0` FOREIGN KEY (`addedby`) REFERENCES `Users`(`userid`);
 
@@ -46,3 +58,4 @@ INSERT INTO Messages (messagesubject, body, sender, recipient) VALUES
 ("Subject 2", "This is email body 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 1, 2),
 ("Subject 3", "This is email body 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 2, 1),
 ("Subject 4", "This is email body 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 2, 1);
+

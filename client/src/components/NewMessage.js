@@ -1,12 +1,26 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 export default function NewMessage(props) {
-  let subjectLine = `Proposed swap: ${props.highlightedBook.title}`
+     
     const [formData, setFormData] = useState({
-        recipient: null,
+        recipient: "",
         messagesubject: "",
         body: ""
     })
+
+    const prefillForm = (prefilled) => {
+        if (prefilled === "bookDetailPage") {
+            setFormData({
+                recipient: props.highlightedBook.addedby,
+                messagesubject: `Proposed swap: ${props.highlightedBook.title}`,
+                body: ""
+            })
+        }
+    }
+
+    useEffect(() => {
+        prefillForm(props.prefilled);
+      }, []);
 
     const handleClose = e => {
         props.closeMessage();
@@ -55,7 +69,7 @@ export default function NewMessage(props) {
             <input 
             className="form-control" 
             id="floatingInputValue" 
-            placeholder={subjectLine} 
+            placeholder="Enter message subject"
             name="messagesubject"
             value={formData.messagesubject}
             onChange={e => handleChange(e)} />
@@ -76,8 +90,6 @@ export default function NewMessage(props) {
             <button className="btn btn-primary" type="submit">Send</button>
 
         </form>
-
-        {formData.recipient}, {formData.messagesubject}, {formData.body} 
 
       </div>
 
