@@ -1,0 +1,17 @@
+#my-messages {
+    width: 70vw;
+    margin: auto;
+}
+
+#mail-container {
+    display: flex;
+}
+
+#message-pane {
+    width: 50%;
+    padding-top: 30px;
+    padding-left: 30px;
+    text-align: left;
+    background-color: lightgray;
+    border-radius: 25px;
+}

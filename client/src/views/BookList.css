@@ -6,15 +6,23 @@
     grid-template-columns: repeat(4, 20%);
     grid-gap: 5%;
     padding-bottom: 30px;
+    align-items: center;
+    justify-content: center;
 }
 
 .book-box {
     border-style: solid;
-    border-color: red;
+    border-color: lightgray;
+    height: 500px;
+    padding-top: 1rem;
 }
 
 .book-thumb {
     width: 150px;
     height: auto;
     margin-bottom: 5px;
+}
+
+hr {
+    width: 70vw;
 }

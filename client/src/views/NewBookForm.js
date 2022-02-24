@@ -50,7 +50,8 @@ export default function NewBookForm(props) {
       });
     };
 
-    const getCoverURL = async (title, author, isbn) => {
+    const getCoverURL = async (event, title, author, isbn) => {
+      event.preventDefault();
       setError("");
       let fetchURL = "";
       if (isbn) {
@@ -192,7 +193,7 @@ export default function NewBookForm(props) {
           <img id="cover-img" src={coverURL} />
           
           <div>
-          <button className="btn btn-primary" onClick={e => getCoverURL(formData.title, formData.authors, formData.isbn)}>
+          <button className="btn btn-primary" onClick={e => getCoverURL(e, formData.title, formData.authors, formData.isbn)}>
           Generate Cover Automatically
           </button>
           <div className="form-text mb-3">For best results, please provide an ISBN on the left.</div>

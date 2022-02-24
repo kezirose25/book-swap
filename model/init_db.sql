@@ -16,7 +16,7 @@ CREATE TABLE `Books` (
 CREATE TABLE `Messages` (
 	`messageid` int NOT NULL AUTO_INCREMENT,
 	`messagesubject` varchar(255) NOT NULL,
-	`body` varchar(255) NOT NULL,
+	`body` varchar(1000) NOT NULL,
 	`sender` int(255) NOT NULL,
 	`recipient` int(255) NOT NULL,
 	`timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,7 +42,7 @@ INSERT INTO Books (addedby, title, authors, imgurl, genre, summary, bookconditio
 (2, "The Seven Husbands of Evelyn Hugo", "Taylor Jenkins Reid", "https://storage.googleapis.com/du-prd/books/images/9781501161933.jpg", "Historical Fiction", "A movie icon recounts stories of her loves and career to a struggling magazine writer.", "Excellent used condition");
 
 INSERT INTO Messages (messagesubject, body, sender, recipient) VALUES
-("Subject 1", "Body 1", 1, 2),
-("Subject 2", "Body 2", 1, 2),
-("Subject 3", "Body 3", 2, 1),
-("Subject 4", "Body 4", 2, 1);
+("Subject 1", "This is email body 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 1, 2),
+("Subject 2", "This is email body 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 1, 2),
+("Subject 3", "This is email body 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 2, 1),
+("Subject 4", "This is email body 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 2, 1);

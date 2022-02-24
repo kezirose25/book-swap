@@ -16,10 +16,23 @@ router.get("/books", (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
+// Get all messages
+router.get("/messages", (req, res) => {
+  let sqlGetMessages = `SELECT * from messages`
+  db(sqlGetMessages)
+    .then(results => {
+      res.send(results.data);
+    })
+    .catch(err => res.status(500).send(err));
+});
+
 // Get book by ID
 router.get("/books/:book_id", async (req, res) => {
   let id = req.params.book_id;
-  let sqlCheckID = `SELECT * FROM books WHERE bookid = ${id}`;
+  let sqlCheckID = `SELECT Books.*, Users.username, Users.wishlist 
+                    FROM books 
+                    JOIN Users ON Books.Addedby = Users.UserID
+                    WHERE bookid = ${id}`;
   try {
     let result = await db(sqlCheckID);
     if (result.data.length === 0) {
@@ -68,5 +81,24 @@ router.delete("/books/:book_id", async (req, res) => {
   }
 });
 
+// Delete message
+router.delete("/messages/:message_id", async (req, res) => {
+  let id = req.params.message_id;
+  let sqlCheckID = `SELECT * FROM messages WHERE messageid = ${id}`;
+  let sqlDelete = `DELETE FROM messages WHERE messageid = ${id}`;
+  try {
+    let result = await db(sqlCheckID);
+    if (result.data.length === 0) {
+      res.status(404).send({ error: "Message not found!" });
+    } else {
+      await db(sqlDelete);
+      let result = await db("select * from messages");
+      let messages = result.data;
+      res.status(201).send(messages);
+    }
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 
 module.exports = router;

@@ -12,20 +12,14 @@ import MyMessages from './views/MyMessages.js';
 import NewBookForm from './views/NewBookForm.js';
 
 function App() {
-  // const [date, setDate] = useState("");
   const [books, setBooks] = useState([]);
+  const [messages, setMessages] = useState([])
   const [currentUser, setCurrentUser] = useState(1); // Proxy for logged-in user
   
-  // const updateDateTime = () => {
-  //   let currentdate =  new Date(); 
-  //   let updatedDateTime = currentdate.getDate() + "/" + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + " @ "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-  //   setDate(updatedDateTime);
-  // }
-
   useEffect(() => {
     getBooks();
   }, []);
-
+  
   // GET all books
   async function getBooks() {
     try {
@@ -33,6 +27,25 @@ function App() {
       if (response.ok) {
         let books = await response.json();
         setBooks(books);
+      } else {
+        console.log(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`Server error: ${err.message}`);
+    }
+  }
+
+  useEffect(() => {
+    getMessages();
+  }, []);
+  
+  // GET all messages
+  async function getMessages() {
+    try {
+      let response = await fetch("/messages");
+      if (response.ok) {
+        let messages = await response.json();
+        setMessages(messages);
       } else {
         console.log(`Server error: ${response.status} ${response.statusText}`);
       }
@@ -84,22 +97,20 @@ function App() {
   return (
     <div className="App">
         <Navbar />
-
+        <div className="d-flex justify-content-end align-items-center pe-3">
+            <div className="mt-3"><p>Welcome, <b>User {currentUser}</b>!</p></div>
+            <button className="btn btn-primary btn-sm ms-3">Log out</button>
+        </div>
         <Routes>
                 <Route path="/" element={<HomeView />} />
                 <Route path="books" element={<BookList books={books} />} />
                 <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)}/>} />
                 <Route path="mybooks/addnew" element={<NewBookForm addBookCB={(newBook) => addNewBook(newBook)}/>} />
-                <Route path="mymessages" element={<MyMessages />} />
+                <Route path="mymessages" element={<MyMessages currentUser={currentUser} messages={messages} />} />
                 <Route path="books/:id" element={<BookDetail books={books} />} />
-
                 <Route path="*" element={<Error404View />} />
         </Routes>
 
-      {/* <p>
-          <button onClick={() => updateDateTime()}>Update time & date</button>
-          Current date/time: {date}
-      </p> */}
     </div>
   );
 }
