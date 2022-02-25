@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
-import "./NewBookForm.css"
+import "./NewBookForm.css";
 
-let API_KEY = 'This is only a temporary solution';
+let API_KEY = process.env.REACT_APP_API_KEY;
 
 export default function NewBookForm(props) {
   const [coverURL, setCoverURL] = useState("https://via.placeholder.com/230x300?text=No+Cover+Provided");  
