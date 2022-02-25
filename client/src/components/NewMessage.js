@@ -15,6 +15,12 @@ export default function NewMessage(props) {
                 messagesubject: `Proposed swap: ${props.highlightedBook.title}`,
                 body: ""
             })
+        } else if (prefilled === "reply") {
+            setFormData({
+                recipient: props.openMessage.sendername,
+                messagesubject: `RE: ${props.openMessage.messagesubject}`,
+                body: ""
+            })
         }
     }
 

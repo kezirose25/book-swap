@@ -13,7 +13,8 @@ import NewBookForm from './views/NewBookForm.js';
 
 function App() {
   const [books, setBooks] = useState([]);
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(1); // Proxy for logged-in user
   
   useEffect(() => {
@@ -54,6 +55,27 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  // GET all users
+  async function getUsers() {
+    try {
+      let response = await fetch("/users");
+      if (response.ok) {
+        let users = await response.json();
+        setUsers(users);
+      } else {
+        console.log(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`Server error: ${err.message}`);
+    }
+  }
+
+  // BOOKS FUNCTIONS
+
   // ADD new book
   const addNewBook = async (newBook) => {
     newBook.addedby = currentUser;
@@ -75,9 +97,20 @@ function App() {
     }
   }
 
+  // MESSAGES FUNCTIONS
+
   // ADD new message
   const addNewMessage = async (newMessage) => {
+    // Set the current user as the sender of the message
     newMessage.sender = currentUser;
+
+    // Convert recipient name (a username) into recipient ID (a number)
+    let recipient = users.filter(user => user.username === newMessage.recipient);
+    let recipientID = recipient[0].userid;
+    console.log(recipientID);
+    newMessage.recipient = recipientID;
+
+    // Set the options
     let options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },

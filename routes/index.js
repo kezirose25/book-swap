@@ -7,6 +7,15 @@ router.get('/', function(req, res, next) {
   res.send({ title: 'Express' });
 });
 
+// ROUTES FOR USERS TABLE
+router.get("/users", (req, res) => {
+  db("SELECT * FROM users;")
+    .then(results => {
+      res.send(results.data);
+    })
+    .catch(err => res.status(500).send(err));
+});
+
 // ROUTES FOR BOOKS TABLE
 
 // Get all books
@@ -79,7 +88,8 @@ router.get("/messages", (req, res) => {
   let sqlGetMessages = `SELECT Messages.*, fromUsers.username AS sendername, toUsers.username AS recipientname
                         FROM Messages 
                         JOIN (users AS fromUsers) ON (Messages.Sender = fromUsers.userid) 
-                        JOIN (users AS toUsers) ON (Messages.Recipient = toUsers.userid)`
+                        JOIN (users AS toUsers) ON (Messages.Recipient = toUsers.userid)
+                        ORDER BY timestamp DESC`
   db(sqlGetMessages)
     .then(results => {
       res.send(results.data);
@@ -90,11 +100,16 @@ router.get("/messages", (req, res) => {
 // Add new message
 router.post("/messages", async (req, res) => {
   let { messagesubject, body, sender, recipient } = req.body;
-  let sql = `insert into messages (messagesubject, body, sender, recipient) 
+  let sqlPost = `insert into messages (messagesubject, body, sender, recipient) 
             values ('${messagesubject}', '${body}', ${sender}, ${recipient})`;
+  let sqlGetMessages = `SELECT Messages.*, fromUsers.username AS sendername, toUsers.username AS recipientname
+            FROM Messages 
+            JOIN (users AS fromUsers) ON (Messages.Sender = fromUsers.userid) 
+            JOIN (users AS toUsers) ON (Messages.Recipient = toUsers.userid)
+            ORDER BY timestamp DESC`
   try {
-    await db(sql);
-    let result = await db("select * from messages");
+    await db(sqlPost);
+    let result = await db(sqlGetMessages);
     let messages = result.data;
     res.status(201).send(messages);
   } catch (err) {
@@ -107,13 +122,18 @@ router.delete("/messages/:message_id", async (req, res) => {
   let id = req.params.message_id;
   let sqlCheckID = `SELECT * FROM messages WHERE messageid = ${id}`;
   let sqlDelete = `DELETE FROM messages WHERE messageid = ${id}`;
+  let sqlGetMessages = `SELECT Messages.*, fromUsers.username AS sendername, toUsers.username AS recipientname
+            FROM Messages 
+            JOIN (users AS fromUsers) ON (Messages.Sender = fromUsers.userid) 
+            JOIN (users AS toUsers) ON (Messages.Recipient = toUsers.userid)
+            ORDER BY timestamp DESC`
   try {
     let result = await db(sqlCheckID);
     if (result.data.length === 0) {
       res.status(404).send({ error: "Message not found!" });
     } else {
       await db(sqlDelete);
-      let result = await db("select * from messages");
+      let result = await db(sqlGetMessages);
       let messages = result.data;
       res.status(201).send(messages);
     }

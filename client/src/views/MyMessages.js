@@ -21,6 +21,11 @@ export default function MyMessages(props) {
     const handleOpen = (e) => {
         setMessageOpen(true);
       }
+
+    const handleReply = (e) => {
+        setPrefilled("reply");
+        setMessageOpen(true);
+    }
     
     const closeMessage = (e) => {
         setMessageOpen(false);
@@ -47,16 +52,17 @@ export default function MyMessages(props) {
                 <h4>{openMessage.messagesubject}</h4>
                 {openMessage.sender === props.currentUser ? (
                     <div>
-                    <h5>{openMessage.recipient}</h5>
+                    <h5>To: {openMessage.recipientname}</h5>
                     <p className="text-muted">From: you</p>
                     </div>
                 ) : (
                     <div>
-                    <h5>{openMessage.sender}</h5>
+                    <h5>From: {openMessage.sendername}</h5>
                     <p className="text-muted">To: you</p>
                     </div>
                 )}
                 <p>{openMessage.body}</p>
+                <button onClick={e => handleReply(e)} className="btn btn-primary btn-sm">Reply</button>
             </div>
             )
             }
@@ -64,7 +70,7 @@ export default function MyMessages(props) {
     
         </div>
 
-        {messageOpen && <NewMessage closeMessage={e => closeMessage(e)} sendMessage={message => sendMessage(message)} prefilled={prefilled}/>}
+        {messageOpen && <NewMessage closeMessage={e => closeMessage(e)} sendMessage={message => sendMessage(message)} prefilled={prefilled} openMessage={openMessage}/>}
     </div>
   );
 }
