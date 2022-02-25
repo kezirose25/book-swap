@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const db = require("../model/helper");
+var fetch = require('node-fetch');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -55,7 +56,7 @@ router.post("/books", async (req, res) => {
     await db(sql);
     let result = await db("select * from books");
     let books = result.data;
-    res.status(201).send(books);
+    res.status(201).send(books).redirect('/mybooks');
   } catch (err) {
     res.status(500).send({ error: err.message });
   }

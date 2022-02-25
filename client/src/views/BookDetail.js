@@ -8,8 +8,9 @@ import "./BookDetail.css";
 export default function BookDetail(props) {
   const [highlightedBook, setHighlightedBook] = useState({});
   const [messageOpen, setMessageOpen] = useState(false);
-  const [prefilled, setPrefilled] = useState("bookDetailPage")
-  let { id } = useParams();  // get user ID from URL
+  const [prefilled, setPrefilled] = useState("bookDetailPage");
+  const [show404, setShow404] = useState("false");
+  let { id } = useParams();  // get book ID from URL
 
   useEffect(() => {
     getHighlighted(id);
@@ -23,6 +24,7 @@ export default function BookDetail(props) {
         console.log(highlighted);
         setHighlightedBook(highlighted);
       } else {
+        if (response.status === 404) {setShow404(true)};
         console.log(`Server error: ${response.status} ${response.statusText}`);
       }
     } catch (err) {
@@ -42,8 +44,17 @@ export default function BookDetail(props) {
     props.addNewMessage(msg);
   }
 
+
+  if (Object.keys(highlightedBook).length === 0) {
+
+  }
+  // Return Loading component
+  // If show 404 is true, return Error404
+  // Loading prop - 
+
   return (
     <div id="highlighted-book" className="px-5 py-5 rounded-3">
+
         <div className="d-flex justify-content-end mb-3"><Link to="/books" className="btn btn-primary">Back to All Books</Link></div>
         
         <div id="book-info-container" className="d-flex">

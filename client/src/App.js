@@ -15,6 +15,7 @@ function App() {
   const [books, setBooks] = useState([]);
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [currentUser, setCurrentUser] = useState(1); // Proxy for logged-in user
   
   useEffect(() => {
@@ -89,12 +90,18 @@ function App() {
       if (response.ok) {
         let books = await response.json();
         setBooks(books);
+        setSubmitSuccess(true);
       } else {
         console.log(`Server error: ${response.status} ${response.statusText}`);
       }
     } catch (err) {
       console.log(`Server error: ${err.message}`);
     }
+  }
+
+  // Reset submit success prop
+  const resetSubmit = () => {
+    setSubmitSuccess(false);
   }
 
   // MESSAGES FUNCTIONS
@@ -181,7 +188,7 @@ const deleteMessage = async id => {
                 <Route path="/" element={<HomeView />} />
                 <Route path="books" element={<BookList books={books} />} />
                 <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)}/>} />
-                <Route path="mybooks/addnew" element={<NewBookForm addBookCB={(newBook) => addNewBook(newBook)}/>} />
+                <Route path="mybooks/addnew" element={<NewBookForm addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
                 <Route path="mymessages" element={<MyMessages currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
                 <Route path="books/:id" element={<BookDetail books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
                 <Route path="*" element={<Error404View />} />

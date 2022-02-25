@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {Link} from "react-router-dom";
 import "./NewBookForm.css"
 
-const API_KEY = "AIzaSyAM_2uMeXx-VdB2MhU4qvQOo-p4zCco3Gc"
+let API_KEY = 'This is only a temporary solution';
 
 export default function NewBookForm(props) {
   const [coverURL, setCoverURL] = useState("https://via.placeholder.com/230x300?text=No+Cover+Provided");  
@@ -17,6 +18,10 @@ export default function NewBookForm(props) {
     });
     let [condition, setCondition] = useState("");
   
+    useEffect(() => {
+      props.resetSubmitSuccess();
+    }, []);
+
     const handleChange = e => {
         let { name, value } = e.target;
         setFormData(state => ({
@@ -89,6 +94,8 @@ export default function NewBookForm(props) {
     
     <div id="new-book-form">
         <h3>Add Book</h3>
+
+        {props.submitSuccess && <p>Submission successful! You can add another book below or go back to <Link className="link" to="/mybooks">My Books</Link>.</p>}
 
         <form onSubmit={e => handleSubmit(e)}>
           <div className="d-flex">
