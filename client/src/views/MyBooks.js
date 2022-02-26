@@ -1,6 +1,6 @@
 import React from "react";
-import './MyBooks.css';
 import {Link} from 'react-router-dom';
+import './MyBooks.css'
 
 export default function MyBooks(props) {
   let usersBooks = props.books.filter(book => book.addedby === props.currentUser);
@@ -10,9 +10,9 @@ export default function MyBooks(props) {
     }
 
   return (
-    <div id="my-books">
+    <div className="container px-5" id="my-books">
         <h3>My books</h3>
-        <table class="table">
+        <table className="table">
             <thead>
                 <tr>
                     <th scope="col">Title</th>
@@ -26,12 +26,12 @@ export default function MyBooks(props) {
   
             <tbody>
                 {usersBooks.map(book => (
-                    <tr>
+                    <tr key={book.bookid}>
                     <td>{book.title}</td>
                     <td>{book.authors}</td>
                     <td>{book.genre}</td>
                     <td>{book.bookcondition}</td>
-                    <td><Link to="/mybooks/addnew" className="btn btn-primary">Edit</Link></td>
+                    <td><Link to={'/mybooks/edit/'+book.bookid} className="btn btn-primary">Edit</Link></td>
                     <td><button className="btn btn-primary" onClick={e => handleDelete(book.bookid)}>Delete</button></td>
                     </tr>
                 ))}

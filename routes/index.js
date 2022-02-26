@@ -56,7 +56,38 @@ router.post("/books", async (req, res) => {
     await db(sql);
     let result = await db("select * from books");
     let books = result.data;
-    res.status(201).send(books).redirect('/mybooks');
+    res.status(201).send(books);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+// Edit book
+router.put("/books/:book_id", async (req, res) => {
+  let id = req.params.book_id;
+  let { addedby, title, authors, imgurl, genre, summary, bookcondition } = req.body;
+  let sqlCheckID = `SELECT * FROM books WHERE bookid = ${id}`;
+  let sqlUpdate = `
+    UPDATE books SET 
+    addedby = ${addedby},    
+    title = '${title}',
+    authors = '${authors}',
+    imgurl = '${imgurl}', 
+    genre = '${genre}',
+    summary = '${summary}',
+    bookcondition = '${bookcondition}' 
+    WHERE bookid = ${id};
+  `;
+  try {
+    let result = await db(sqlCheckID);
+    if (result.data.length === 0) {
+      res.status(404).send({ error: "Book not found!" });
+    } else {
+      await db(sqlUpdate);
+      let result = await db("select * from books");
+      let books = result.data;
+      res.status(201).send(books);
+    }
   } catch (err) {
     res.status(500).send({ error: err.message });
   }

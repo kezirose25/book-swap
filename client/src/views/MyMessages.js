@@ -45,7 +45,7 @@ export default function MyMessages(props) {
         <MailList messages={props.messages} currentUser={props.currentUser} openMessage={(id) => openNewMessage(id)} deleteMessageCB={(id) => deleteThisMessage(id)}/>
         </div>
 
-        <div id="message-pane">
+        <div id="message-pane" className="px-5 py-5 rounded-3">
         
         {(!openMessage) ? <h4 className="text-muted"> No message selected.</h4> : 
             (<div>

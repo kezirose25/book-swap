@@ -9,9 +9,6 @@
 
 #message-pane {
     width: 50%;
-    padding-top: 30px;
-    padding-left: 30px;
     text-align: left;
-    background-color: lightgray;
-    border-radius: 25px;
+    background-color: #f8f9fa;
 }

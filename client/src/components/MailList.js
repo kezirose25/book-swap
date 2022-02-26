@@ -5,17 +5,13 @@ export default function MailList(props) {
     let mySentItems = props.messages.filter(m => m.sender === props.currentUser);
     for (let message of mySentItems) {
         let datetime = new Date(message.timestamp.toString());
-        console.log(datetime);
         let dtString = datetime.toString().slice(0,25);
-        console.log(dtString);
         message.timestamp = dtString;
     } 
     let myReceivedItems = props.messages.filter(m => m.recipient === props.currentUser);
     for (let message of myReceivedItems) {
         let datetime = new Date(message.timestamp.toString());
-        console.log(datetime);
         let dtString = datetime.toString().slice(0,25);
-        console.log(dtString);
         message.timestamp = dtString;
     } 
 

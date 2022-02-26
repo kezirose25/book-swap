@@ -8,8 +8,9 @@ import BookList from './views/BookList.js';
 import Error404View from './views/Error404View.js';
 import HomeView from './views/HomeView.js';
 import MyBooks from './views/MyBooks.js';
+import EditBook from './views/EditBook.js';
 import MyMessages from './views/MyMessages.js';
-import NewBookForm from './views/NewBookForm.js';
+import AddBook from './views/AddBook.js';
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -80,6 +81,9 @@ function App() {
   // ADD new book
   const addNewBook = async (newBook) => {
     newBook.addedby = currentUser;
+    if (newBook.genre === "") {newBook.genre = "Genre not specified"}
+    if (newBook.bookcondition === "") {newBook.bookcondition = "Condition not specified"}
+    if (newBook.description === "") {newBook.description = "No description provided"}
     let options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -87,6 +91,29 @@ function App() {
     };
     try {
       let response = await fetch("/books", options);
+      if (response.ok) {
+        let books = await response.json();
+        setBooks(books);
+        setSubmitSuccess(true);
+      } else {
+        console.log(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`Server error: ${err.message}`);
+    }
+  }
+
+  // EDIT book
+  const editBook = async (updatedBook, editID) => {
+    updatedBook.addedby = currentUser;
+    let options = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedBook)
+    };
+    let id = editID;
+    try {
+      let response = await fetch(`/books/${id}`, options);
       if (response.ok) {
         let books = await response.json();
         setBooks(books);
@@ -135,7 +162,6 @@ function App() {
       console.log(`Server error: ${err.message}`);
     }
   }
-
 
   // DELETE book
   const deleteBook = async id => {
@@ -188,7 +214,8 @@ const deleteMessage = async id => {
                 <Route path="/" element={<HomeView />} />
                 <Route path="books" element={<BookList books={books} />} />
                 <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)}/>} />
-                <Route path="mybooks/addnew" element={<NewBookForm addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
+                <Route path="mybooks/addnew" element={<AddBook addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
+                <Route path="mybooks/edit/:id" element={<EditBook books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
                 <Route path="mymessages" element={<MyMessages currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
                 <Route path="books/:id" element={<BookDetail books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
                 <Route path="*" element={<Error404View />} />

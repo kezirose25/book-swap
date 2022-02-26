@@ -2,14 +2,16 @@ import React, {useState, useEffect} from "react";
 import {Link, useParams} from "react-router-dom";
 import Error404View from './Error404View.js';
 import NewMessage from "../components/NewMessage.js";
+import LoadingScreen from '../components/LoadingScreen.js';
 
 import "./BookDetail.css";
 
 export default function BookDetail(props) {
   const [highlightedBook, setHighlightedBook] = useState({});
+  const [loading, setLoading] = useState(false)
   const [messageOpen, setMessageOpen] = useState(false);
   const [prefilled, setPrefilled] = useState("bookDetailPage");
-  const [show404, setShow404] = useState("false");
+  const [show404, setShow404] = useState(false);
   let { id } = useParams();  // get book ID from URL
 
   useEffect(() => {
@@ -17,14 +19,19 @@ export default function BookDetail(props) {
   }, []);
 
   const getHighlighted = async id => {
+    setLoading(true);
     try {
       let response = await fetch(`/books/${id}`);
       if (response.ok) {
         let highlighted = await response.json();
-        console.log(highlighted);
         setHighlightedBook(highlighted);
+        console.log(highlighted)
+        setLoading(false);
       } else {
-        if (response.status === 404) {setShow404(true)};
+        if (response.status === 404) {
+          setLoading(false);
+          setShow404(true)
+        };
         console.log(`Server error: ${response.status} ${response.statusText}`);
       }
     } catch (err) {
@@ -46,11 +53,12 @@ export default function BookDetail(props) {
 
 
   if (Object.keys(highlightedBook).length === 0) {
-
+      if (loading) {return <LoadingScreen />}
+      else if (show404) {return <Error404View />} 
   }
   // Return Loading component
   // If show 404 is true, return Error404
-  // Loading prop - 
+  // Loading prop  
 
   return (
     <div id="highlighted-book" className="px-5 py-5 rounded-3">

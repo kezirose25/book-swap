@@ -1,26 +1,35 @@
 import React, {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
-import "./NewBookForm.css";
+import "./BookForm.css";
 
 let API_KEY = process.env.REACT_APP_API_KEY;
 
-export default function NewBookForm(props) {
-  const [coverURL, setCoverURL] = useState("https://via.placeholder.com/230x300?text=No+Cover+Provided");  
-  const [error, setError] = useState("");
+export default function BookForm(props) {
+    const [formData, setFormData] = useState({
+        title: "",
+        authors: "",
+        genre: "",
+        imgurl: "",
+        description: "",
+        isbn: ""
+      });
+    const [condition, setCondition] = useState("");
+    const [coverURL, setCoverURL] = useState("https://via.placeholder.com/230x300?text=No+Cover+Provided");  
+    const [error, setError] = useState("");
+    
+    // const prefillForm = (prefilled) => {
+    //     if (prefilled === "edit") {
+    //         setFormData({
+    //             title: "Blah blah blah",
+    //             authors: "I'm an author",
+    //         });
+    //     } 
+    // }
 
-  let [formData, setFormData] = useState({
-      title: "",
-      authors: "",
-      genre: "",
-      imgurl: "",
-      description: "",
-      isbn: ""
-    });
-    let [condition, setCondition] = useState("");
+    // useEffect(() => {
+    //     prefillForm(props.addOrEdit);
+    //   }, []);
   
-    useEffect(() => {
-      props.resetSubmitSuccess();
-    }, []);
+    // FUNCTIONS TO MANAGE CHANGES IN FORM
 
     const handleChange = e => {
         let { name, value } = e.target;
@@ -32,28 +41,37 @@ export default function NewBookForm(props) {
   
     const handleCondition = event => {
       setCondition(event.target.value);
-    };
-  
+    };  
+
+    // SUBMIT THE FORM
+
     const handleSubmit = event => {
       event.preventDefault();
-      let newBook = {
+      let book = {
         title: formData.title,
         authors: formData.authors,
         genre: formData.genre,
-        imgurl: formData.imgurl,
+        imgurl: coverURL,
         description: formData.description,
         bookcondition: condition
       }
-      props.addBookCB(newBook);
-      setFormData({
-        title: "",
-        authors: "",
-        genre: "",
-        imgurl: "",
-        description: "",
-        isbn: ""
-      });
+      if (props.addOrEdit === "add") {
+        props.addBookCB(book);
+        setFormData({
+            title: "",
+            authors: "",
+            genre: "",
+            imgurl: "",
+            description: "",
+            isbn: ""
+          });
+         setCoverURL("https://via.placeholder.com/230x300?text=No+Cover+Provided");  
+      } else {
+        props.editBookCB(book);
+      } 
     };
+
+    // AUTOMATICALLY GET COVER USING API CALL
 
     const getCoverURL = async (event, title, author, isbn) => {
       event.preventDefault();
@@ -88,16 +106,12 @@ export default function NewBookForm(props) {
           setError(`Network error: ${err.message}`);
         }
       }  
-    };
+    };    
 
   return (
-    
-    <div id="new-book-form">
-        <h3>Add Book</h3>
-
-        {props.submitSuccess && <p>Submission successful! You can add another book below or go back to <Link className="link" to="/mybooks">My Books</Link>.</p>}
-
-        <form onSubmit={e => handleSubmit(e)}>
+    <div className="container d-flex justify-content-center">
+        
+    <form onSubmit={e => handleSubmit(e)}>
           <div className="d-flex">
           <div id="form-fields"> 
     
@@ -200,7 +214,7 @@ export default function NewBookForm(props) {
           <img id="cover-img" src={coverURL} />
           
           <div>
-          <button className="btn btn-primary" onClick={e => getCoverURL(e, formData.title, formData.authors, formData.isbn)}>
+          <button className="btn btn-primary mt-3" onClick={e => getCoverURL(e, formData.title, formData.authors, formData.isbn)}>
           Generate Cover Automatically
           </button>
           <div className="form-text mb-3">For best results, please provide an ISBN on the left.</div>
@@ -219,19 +233,13 @@ export default function NewBookForm(props) {
           <button className="btn btn-primary" onClick={e => setCoverURL(formData.imgurl)}>
           Update Cover Image
           </button>
-          
           </div>
-
-
           </div>
-
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
+        <button type="submit" className="btn btn-primary">Submit</button>
 
       </form>
-
-    </div>
-
+      </div>
   );
 }
+
+
