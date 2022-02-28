@@ -3,32 +3,31 @@ import "./BookForm.css";
 
 let API_KEY = process.env.REACT_APP_API_KEY;
 
+let EMPTY_FORM = {
+    title: "",
+    authors: "",
+    genre: "",
+    imgurl: "",
+    summary: "",
+    isbn: ""
+  }
+
 export default function BookForm(props) {
-    const [formData, setFormData] = useState({
-        title: "",
-        authors: "",
-        genre: "",
-        imgurl: "",
-        description: "",
-        isbn: ""
-      });
+    let result = props.addOrEdit === "edit" ? props.bookToEdit : EMPTY_FORM;
+    console.log(result)
+    const [formData, setFormData] = useState(result);
     const [condition, setCondition] = useState("");
     const [coverURL, setCoverURL] = useState("https://via.placeholder.com/230x300?text=No+Cover+Provided");  
     const [error, setError] = useState("");
-    
-    // const prefillForm = (prefilled) => {
-    //     if (prefilled === "edit") {
-    //         setFormData({
-    //             title: "Blah blah blah",
-    //             authors: "I'm an author",
-    //         });
-    //     } 
-    // }
+      
+    useEffect(() => prefillForm(props.addOrEdit), [])
 
-    // useEffect(() => {
-    //     prefillForm(props.addOrEdit);
-    //   }, []);
-  
+    const prefillForm = (prefilled) => {
+        if (prefilled === "edit") {
+            setFormData(props.bookToEdit);
+        }
+    }
+    
     // FUNCTIONS TO MANAGE CHANGES IN FORM
 
     const handleChange = e => {
@@ -47,14 +46,25 @@ export default function BookForm(props) {
 
     const handleSubmit = event => {
       event.preventDefault();
+    
+    // Get book info from form fields  
       let book = {
         title: formData.title,
         authors: formData.authors,
         genre: formData.genre,
         imgurl: coverURL,
-        description: formData.description,
+        isbn: formData.isbn,
+        summary: formData.summary,
         bookcondition: condition
       }
+
+
+    // Make sure no fields are blank  
+    if (book.genre === "") {book.genre = "Genre not specified"}
+    if (book.bookcondition === "") {book.bookcondition = "Condition not specified"}
+    if (book.summary === "") {book.summary = "No summary provided"}
+    if (book.isbn === "") {book.isbn = "No ISBN provided"}
+
       if (props.addOrEdit === "add") {
         props.addBookCB(book);
         setFormData({
@@ -62,7 +72,7 @@ export default function BookForm(props) {
             authors: "",
             genre: "",
             imgurl: "",
-            description: "",
+            summary: "",
             isbn: ""
           });
          setCoverURL("https://via.placeholder.com/230x300?text=No+Cover+Provided");  
@@ -71,7 +81,7 @@ export default function BookForm(props) {
       } 
     };
 
-    // AUTOMATICALLY GET COVER USING API CALL
+    // AUTOMATICALLY GET COVER USING API CALLS
 
     const getCoverURL = async (event, title, author, isbn) => {
       event.preventDefault();
@@ -81,7 +91,6 @@ export default function BookForm(props) {
         fetchURL = `https://covers.openlibrary.org/b/ISBN/${isbn}-L.jpg?default=false`;
         try {
           let response = await fetch(fetchURL);
-          console.log(response)
           if (response.ok) {
             setCoverURL(response.url);
           } else {
@@ -110,7 +119,7 @@ export default function BookForm(props) {
 
   return (
     <div className="container d-flex justify-content-center">
-        
+
     <form onSubmit={e => handleSubmit(e)}>
           <div className="d-flex">
           <div id="form-fields"> 
@@ -183,24 +192,24 @@ export default function BookForm(props) {
             <option value="" hidden>
               Select your option
             </option>
-            <option value="brandnew">Brand new</option>
-            <option value="euc">Excellent used condition</option>
-            <option value="somewearandtear">Some wear and tear</option>
+            <option value="Brand new">Brand new</option>
+            <option value="Excellent used condition">Excellent used condition</option>
+            <option value="Some wear and tear">Some wear and tear</option>
           </select>
           </div>
           
         </div>
 
         <div className="mb-3">
-          <label htmlFor="description" className="form-label">Description:</label>
+          <label htmlFor="summary" className="form-label">Summary:</label>
           <textarea 
           className="form-control" 
-          id="description"
-          name="description"
-          value={formData.description} 
+          id="summary"
+          name="summary"
+          value={formData.summary} 
           onChange={e => handleChange(e)}
           rows="3"
-          placeholder="Enter a brief description of your book here">
+          placeholder="Enter a brief summary of your book here">
           </textarea>
           </div>
 

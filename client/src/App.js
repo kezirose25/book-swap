@@ -81,9 +81,6 @@ function App() {
   // ADD new book
   const addNewBook = async (newBook) => {
     newBook.addedby = currentUser;
-    if (newBook.genre === "") {newBook.genre = "Genre not specified"}
-    if (newBook.bookcondition === "") {newBook.bookcondition = "Condition not specified"}
-    if (newBook.description === "") {newBook.description = "No description provided"}
     let options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -215,7 +212,7 @@ const deleteMessage = async id => {
                 <Route path="books" element={<BookList books={books} />} />
                 <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)}/>} />
                 <Route path="mybooks/addnew" element={<AddBook addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
-                <Route path="mybooks/edit/:id" element={<EditBook books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
+                <Route path="mybooks/edit/:id" element={<EditBook submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()} books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
                 <Route path="mymessages" element={<MyMessages currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
                 <Route path="books/:id" element={<BookDetail books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
                 <Route path="*" element={<Error404View />} />

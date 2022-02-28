@@ -14,6 +14,10 @@ export default function BookDetail(props) {
   useEffect(() => {
       getBookToEdit(id);
     }, []);
+
+    useEffect(() => {
+        props.resetSubmitSuccess();
+      }, []);
   
   const getBookToEdit = async id => {
       try {
@@ -39,20 +43,7 @@ export default function BookDetail(props) {
     <div>
         <h3>Edit Book</h3>
 
-        {props.submitSuccess && <p>Update successful! You can add another book below or go back to <Link className="link" to="/mybooks">My Books</Link>.</p>}
-
-
-        <div className="container">    
-        <h4>Current Data</h4>
-        <ul>
-            <li>Title: {bookToEdit.title}</li>
-            <li>Authors: {bookToEdit.authors}</li>
-            <li>Genre: {bookToEdit.genre}</li>
-            <li>Description: {bookToEdit.summary}</li>
-            <li>Condition: {bookToEdit.bookcondition}</li>
-            <li>Image URL: {bookToEdit.imgurl}</li>
-        </ul>
-        </div>
+        {props.submitSuccess && <p>Update successful! You can edit more details below or go back to <Link className="link" to="/mybooks">My Books</Link>.</p>} 
         
         <BookForm addOrEdit={addOrEdit} bookToEdit={bookToEdit} editBookCB={(book) => editBookCB(book)}/>
 

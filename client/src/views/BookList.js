@@ -1,19 +1,50 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import "./BookList.css";
 
 export default function BookList(props) {
+  const [filterGenre, setFilterGenre] = useState("All");
+
+  // Uses Set class to generate list of genres without repeating items
+  let genres = [...new Set(props.books.map(book => book.genre))].filter(genre => genre != 'Genre not specified');
   
-  const handleViewBook = id => {
-    props.viewBook(id);
-  };
+  // Filter functionality
+  const changeFilter = (e) => {
+    setFilterGenre(e.target.value)
+  }
 
   return (
   <div className="container" id="book-list">
+
+      <div id="filter-box">
+        <div id="filter">
+          <label id="list-filter" htmlFor="genre-filter">
+            Show genre:
+          </label>
+
+          <select
+            id="genre-filter"
+            name="genre-filter"
+            onChange={e => changeFilter(e)}
+          >
+            <option value="All">All</option>
+            {genres.map(genre => (
+              <option 
+              key={genre}
+              value={`${genre}`}>{genre}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+
+
         <hr className="mx-auto"/>
         <div className="row justify-content-between">
             {props.books.map(book => (
-              <div className="col-lg-3 col-md-5 m-3" key={book.bookid}>
+              <div 
+              className={`${book.genre === filterGenre || filterGenre === "All" ? "col-lg-3 col-md-5 m-3" : "invisible"}`}
+              key={book.bookid}>
                 <div className="card">
                   <img src={book.imgurl} className="card-img-top" alt={book.title} />
                   <div className="card-body">

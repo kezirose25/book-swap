@@ -70,13 +70,14 @@ export default function BookDetail(props) {
         <img id="bookimg" src={highlightedBook.imgurl}></img>
         <div id="highlighted-text" className="px-5">
             
-            <button className="btn btn-secondary mb-3">{highlightedBook.genre}</button>
+            <button className="btn btn-secondary mb-3">Genre: {highlightedBook.genre}</button>
+            <button className="btn btn-secondary mb-3">Condition: {highlightedBook.bookcondition}</button>
             <h2>{highlightedBook.title}</h2>
             <h3>{highlightedBook.authors}</h3>
             <p>{highlightedBook.summary}</p>
 
               {highlightedBook.addedby === props.currentUser ? <p>You added this book! Visit My Books to edit or delete this listing.</p> : (
-                <div id="uploadedby" className="px-3 py-3">
+                <div className="shadow-sm bg-body rounded border px-3 py-3">
                 <p>Uploaded by: {highlightedBook.username}</p>
                 <p>Their wishlist: {highlightedBook.wishlist}</p>
                 <button className="btn btn-primary" onClick={e => handleOpen(e)}>Propose a swap!</button>

@@ -49,10 +49,10 @@ router.get("/books/:book_id", async (req, res) => {
 
 // Add new book
 router.post("/books", async (req, res) => {
-  let { addedby, title, authors, imgurl, genre, summary, bookcondition } = req.body;
-  let sql = `insert into books (addedby, title, authors, imgurl, genre, summary, bookcondition) 
-            values (${addedby}, '${title}', '${authors}', '${imgurl}', '${genre}', '${summary}', '${bookcondition}')`;
-  try {
+  let { addedby, title, authors, imgurl, isbn, genre, summary, bookcondition } = req.body;
+  let sql = `insert into books (addedby, title, authors, imgurl, isbn, genre, summary, bookcondition) 
+            values (${addedby}, '${title}', '${authors}', '${imgurl}', '${isbn}', '${genre}', '${summary}', '${bookcondition}')`;
+    try {
     await db(sql);
     let result = await db("select * from books");
     let books = result.data;
@@ -65,7 +65,7 @@ router.post("/books", async (req, res) => {
 // Edit book
 router.put("/books/:book_id", async (req, res) => {
   let id = req.params.book_id;
-  let { addedby, title, authors, imgurl, genre, summary, bookcondition } = req.body;
+  let { addedby, title, authors, imgurl, isbn, genre, summary, bookcondition } = req.body;
   let sqlCheckID = `SELECT * FROM books WHERE bookid = ${id}`;
   let sqlUpdate = `
     UPDATE books SET 
@@ -73,6 +73,7 @@ router.put("/books/:book_id", async (req, res) => {
     title = '${title}',
     authors = '${authors}',
     imgurl = '${imgurl}', 
+    isbn = '${isbn}',
     genre = '${genre}',
     summary = '${summary}',
     bookcondition = '${bookcondition}' 
