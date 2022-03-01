@@ -32,7 +32,7 @@ export default function MyBooks(props) {
                     <td>{book.genre}</td>
                     <td>{book.bookcondition}</td>
                     <td><Link to={'/mybooks/edit/'+book.bookid} className="btn btn-primary">Edit</Link></td>
-                    <td><button className="btn btn-primary" onClick={e => handleDelete(book.bookid)}>Delete</button></td>
+                    <td><button className="btn btn-danger" onClick={e => handleDelete(book.bookid)}>Delete</button></td>
                     </tr>
                 ))}
                 

@@ -6,3 +6,10 @@
   color: #61dafb;
 }
 
+/* This overrides the default Bootstrap formatting of the <p> tag so it can be vertically centred */
+
+#submit-text {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+

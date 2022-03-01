@@ -17,8 +17,11 @@ export default function BookForm(props) {
     const [error, setError] = useState("");
       
     useEffect(() => {
-          setFormData(props.bookToEdit);
-          setCoverURL(props.bookToEdit.imgurl);
+        if (Object.keys(props.bookToEdit).length > 0) {
+        setFormData(props.bookToEdit);
+        setCoverURL(props.bookToEdit.imgurl);
+        }  
+        
     }, [props.bookToEdit]);
 
     // FUNCTIONS TO MANAGE CHANGES IN FORM
@@ -155,7 +158,7 @@ export default function BookForm(props) {
             </div>
 
           <div className="mb-3 d-flex justify-content-between">
-          <div className="container">
+          <div className="me-3">
           <label className="form-label" htmlFor="genre">
             Genre:
           </label>
@@ -168,7 +171,7 @@ export default function BookForm(props) {
             />
           </div>
           
-          <div className="container">
+          <div>
           <label id="condition-label" htmlFor="category" className="form-label">
             Condition of the book:
           </label>
@@ -202,18 +205,18 @@ export default function BookForm(props) {
           placeholder="Enter a brief summary of your book here">
           </textarea>
           </div>
-
+            
           </div>
         
 
           <div id="image-box">
           <label className="form-label d-block" htmlFor="imgurl">
-                Cover photo:
+                Preview of cover photo:
           </label>
           <img id="cover-img" src={coverURL} />
           
           <div>
-          <button className="btn btn-primary mt-3" onClick={e => getCoverURL(e, formData.title, formData.authors, formData.isbn)}>
+          <button className="btn btn-secondary mt-3 btn-sm" onClick={e => getCoverURL(e, formData.title, formData.authors, formData.isbn)}>
           Generate Cover Automatically
           </button>
           <div className="form-text mb-3">For best results, please provide an ISBN on the left.</div>
@@ -229,13 +232,13 @@ export default function BookForm(props) {
                   className="form-control"
                 />
           </div>
-          <button className="btn btn-primary" onClick={e => setCoverURL(formData.imgurl)}>
+          <button className="btn btn-secondary btn-sm" onClick={e => setCoverURL(formData.imgurl)}>
           Update Cover Image
           </button>
           </div>
           </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
-
+        <div className="d-flex justify-content-center p-2"><button type="submit" className="btn btn-primary my-2 btn-lg">Submit</button></div>
+          
       </form>
       </div>
   );

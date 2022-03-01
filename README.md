@@ -50,6 +50,16 @@ As shown below, the users table includes only a GET route at this stage.
 
 ![API routes for users table](users-api-routes.png)
 
+<!-- ROADMAP -->
+
+## Roadmap
+
+Features that I'd like to add to the app in the future include:
+- [] User authentication
+- [] Search functionality on the "Browse Books" view
+- [] Ability for users to save books that they are interested in
+- [] Ability for users to upload images from their computer
+
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 

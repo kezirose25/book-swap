@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Link, useParams} from "react-router-dom";
 import Error404View from './Error404View.js';
+import './EditBook.css';
 
 import "./BookDetail.css";
 import BookForm from "../components/BookForm.js";
@@ -42,9 +43,9 @@ export default function BookDetail(props) {
   return (
     <div>
         <h3>Edit Book</h3>
-
-        {props.submitSuccess && <p>Update successful! You can edit more details below or go back to <Link className="link" to="/mybooks">My Books</Link>.</p>} 
-        
+         
+        {props.submitSuccess && <div id="submit-container" className="border bg-light d-flex justify-content-center align-items-center py-2 mb-2"><p id="submit-text"className="text-success">Update successful! You can edit more details below or go back to <Link className="link" to="/mybooks">My Books</Link>.</p></div>} 
+         
         {bookToEdit && <BookForm addOrEdit={addOrEdit} bookToEdit={bookToEdit} editBookCB={(book) => editBookCB(book)}/>}
 
     </div>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './MyMessages.css';
 import MailList from '../components/MailList.js';
 import NewMessage from '../components/NewMessage.js';
@@ -8,6 +8,10 @@ export default function MyMessages(props) {
     const [messageOpen, setMessageOpen] = useState(false);
     const [prefilled, setPrefilled] = useState("none");
 
+
+    useEffect(() => {
+        props.resetSubmitSuccess();
+      }, []);
 
     const openNewMessage = (id) => {
         let openedMessage = props.messages.filter(m => m.messageid === id); 
@@ -33,6 +37,7 @@ export default function MyMessages(props) {
     
     const sendMessage = (msg) => {
         props.addNewMessage(msg);
+        setPrefilled("none");
       }
 
   return (
@@ -40,7 +45,7 @@ export default function MyMessages(props) {
         <h1>SwapMail</h1>
         <div className="d-flex justify-content-start"><button className="btn btn-primary" onClick={e => handleOpen(e)}>Compose new message</button></div>
         
-        {props.submitSuccess && (<div className="border bg-light d-flex justify-content-center align-items-center px-2 py-2 mb-4 my-3"><p className="text-success">Message sent!</p></div>)}
+        {props.submitSuccess && (<div className="border bg-light d-flex justify-content-center align-items-center p-2 mb-4 my-3"><p id="submit-text"className="text-success">Message sent!</p></div>)}
         
         <div id="mail-container" className="mt-5">
         

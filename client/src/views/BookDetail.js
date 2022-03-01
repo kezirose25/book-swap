@@ -16,6 +16,7 @@ export default function BookDetail(props) {
 
   useEffect(() => {
     getHighlighted(id);
+    props.resetSubmitSuccess();
   }, []);
 
   const getHighlighted = async id => {
@@ -65,15 +66,15 @@ export default function BookDetail(props) {
 
       <div className="d-flex justify-content-end mb-3"><Link to="/books" className="btn btn-primary">Back to All Books</Link></div>
         
-       {props.submitSuccess && (<div className="border bg-body d-flex justify-content-center align-items-center px-2 py-2 mb-4"><p className="text-success">Message sent!</p></div>)}
+       {props.submitSuccess && (<div className="border bg-body d-flex justify-content-center align-items-center px-2 py-2 mb-4"><p id="submit-text" className="text-success">Message sent!</p></div>)}
 
         <div id="book-info-container" className="d-flex">
 
         <img id="bookimg" src={highlightedBook.imgurl}></img>
         <div id="highlighted-text" className="px-5">
             
-            <button className="btn btn-secondary mb-3">Genre: {highlightedBook.genre}</button>
-            <button className="btn btn-secondary mb-3">Condition: {highlightedBook.bookcondition}</button>
+            <button className="btn btn-secondary mb-3 mx-2 btn-sm">Genre: {highlightedBook.genre}</button>
+            <button className="btn btn-secondary mb-3 mx-2 btn-sm">Condition: {highlightedBook.bookcondition}</button>
             <h2>{highlightedBook.title}</h2>
             <h3>{highlightedBook.authors}</h3>
             <p>{highlightedBook.summary}</p>
