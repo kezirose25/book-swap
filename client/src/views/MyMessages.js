@@ -39,6 +39,9 @@ export default function MyMessages(props) {
     <div id="my-messages">
         <h1>SwapMail</h1>
         <div className="d-flex justify-content-start"><button className="btn btn-primary" onClick={e => handleOpen(e)}>Compose new message</button></div>
+        
+        {props.submitSuccess && (<div className="border bg-light d-flex justify-content-center align-items-center px-2 py-2 mb-4 my-3"><p className="text-success">Message sent!</p></div>)}
+        
         <div id="mail-container" className="mt-5">
         
         <div className="me-5">

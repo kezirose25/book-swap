@@ -16,9 +16,9 @@ export default function BookList(props) {
   return (
   <div className="container" id="book-list">
 
-      <div id="filter-box">
-        <div id="filter">
-          <label id="list-filter" htmlFor="genre-filter">
+      <div className="d-flex justify-content-end">
+        <div id="filter" className="px-2">
+          <label id="list-filter" className="me-2" htmlFor="genre-filter">
             Show genre:
           </label>
 

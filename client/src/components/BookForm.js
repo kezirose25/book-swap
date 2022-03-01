@@ -3,31 +3,24 @@ import "./BookForm.css";
 
 let API_KEY = process.env.REACT_APP_API_KEY;
 
-let EMPTY_FORM = {
-    title: "",
-    authors: "",
-    genre: "",
-    imgurl: "",
-    summary: "",
-    isbn: ""
-  }
-
 export default function BookForm(props) {
-    let result = props.addOrEdit === "edit" ? props.bookToEdit : EMPTY_FORM;
-    console.log(result)
-    const [formData, setFormData] = useState(result);
-    const [condition, setCondition] = useState("");
+    const [formData, setFormData] = useState({
+        title: "",
+        authors: "",
+        genre: "",
+        imgurl: "",
+        summary: "",
+        isbn: "",
+        bookcondition: ""
+      });
     const [coverURL, setCoverURL] = useState("https://via.placeholder.com/230x300?text=No+Cover+Provided");  
     const [error, setError] = useState("");
       
-    useEffect(() => prefillForm(props.addOrEdit), [])
+    useEffect(() => {
+          setFormData(props.bookToEdit);
+          setCoverURL(props.bookToEdit.imgurl);
+    }, [props.bookToEdit]);
 
-    const prefillForm = (prefilled) => {
-        if (prefilled === "edit") {
-            setFormData(props.bookToEdit);
-        }
-    }
-    
     // FUNCTIONS TO MANAGE CHANGES IN FORM
 
     const handleChange = e => {
@@ -38,10 +31,6 @@ export default function BookForm(props) {
         }));
       };
   
-    const handleCondition = event => {
-      setCondition(event.target.value);
-    };  
-
     // SUBMIT THE FORM
 
     const handleSubmit = event => {
@@ -55,15 +44,15 @@ export default function BookForm(props) {
         imgurl: coverURL,
         isbn: formData.isbn,
         summary: formData.summary,
-        bookcondition: condition
+        bookcondition: formData.bookcondition
       }
 
-
     // Make sure no fields are blank  
-    if (book.genre === "") {book.genre = "Genre not specified"}
-    if (book.bookcondition === "") {book.bookcondition = "Condition not specified"}
-    if (book.summary === "") {book.summary = "No summary provided"}
-    if (book.isbn === "") {book.isbn = "No ISBN provided"}
+    if (book.genre === "") {book.genre = "Genre not specified"};
+    if (book.bookcondition === "") {book.bookcondition = "Condition not specified"};
+    if (book.summary === "") {book.summary = "No summary provided"};
+    if (book.isbn === "") {book.isbn = "No ISBN provided"};
+    console.log(book);
 
       if (props.addOrEdit === "add") {
         props.addBookCB(book);
@@ -185,9 +174,10 @@ export default function BookForm(props) {
           </label>
 
           <select
-            name="condition"
-            onChange={e => handleCondition(e)}
+            name="bookcondition"
+            onChange={e => handleChange(e)}
             className="form-select"
+            value={formData.bookcondition}
           >
             <option value="" hidden>
               Select your option

@@ -63,8 +63,10 @@ export default function BookDetail(props) {
   return (
     <div id="highlighted-book" className="px-5 py-5 rounded-3">
 
-        <div className="d-flex justify-content-end mb-3"><Link to="/books" className="btn btn-primary">Back to All Books</Link></div>
+      <div className="d-flex justify-content-end mb-3"><Link to="/books" className="btn btn-primary">Back to All Books</Link></div>
         
+       {props.submitSuccess && (<div className="border bg-body d-flex justify-content-center align-items-center px-2 py-2 mb-4"><p className="text-success">Message sent!</p></div>)}
+
         <div id="book-info-container" className="d-flex">
 
         <img id="bookimg" src={highlightedBook.imgurl}></img>
@@ -76,7 +78,7 @@ export default function BookDetail(props) {
             <h3>{highlightedBook.authors}</h3>
             <p>{highlightedBook.summary}</p>
 
-              {highlightedBook.addedby === props.currentUser ? <p>You added this book! Visit My Books to edit or delete this listing.</p> : (
+              {highlightedBook.addedby === props.currentUser ? <div className="shadow-sm bg-body rounded border px-3 pt-3"><p>You added this book! Visit My Books to edit or delete this listing.</p></div> : (
                 <div className="shadow-sm bg-body rounded border px-3 py-3">
                 <p>Uploaded by: {highlightedBook.username}</p>
                 <p>Their wishlist: {highlightedBook.wishlist}</p>

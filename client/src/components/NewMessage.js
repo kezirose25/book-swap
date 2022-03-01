@@ -11,7 +11,7 @@ export default function NewMessage(props) {
     const prefillForm = (prefilled) => {
         if (prefilled === "bookDetailPage") {
             setFormData({
-                recipient: props.highlightedBook.addedby,
+                recipient: props.highlightedBook.username,
                 messagesubject: `Proposed swap: ${props.highlightedBook.title}`,
                 body: ""
             })

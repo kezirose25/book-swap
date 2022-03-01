@@ -152,6 +152,7 @@ function App() {
       if (response.ok) {
         let messages = await response.json();
         setMessages(messages);
+        setSubmitSuccess(true);
       } else {
         console.log(`Server error: ${response.status} ${response.statusText}`);
       }
@@ -213,8 +214,8 @@ const deleteMessage = async id => {
                 <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)}/>} />
                 <Route path="mybooks/addnew" element={<AddBook addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
                 <Route path="mybooks/edit/:id" element={<EditBook submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()} books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
-                <Route path="mymessages" element={<MyMessages currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
-                <Route path="books/:id" element={<BookDetail books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
+                <Route path="mymessages" element={<MyMessages submitSuccess={submitSuccess} currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
+                <Route path="books/:id" element={<BookDetail submitSuccess={submitSuccess} books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
                 <Route path="*" element={<Error404View />} />
         </Routes>
 

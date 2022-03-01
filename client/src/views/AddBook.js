@@ -18,9 +18,9 @@ export default function NewBookForm(props) {
     <div id="new-book-form">
         <h3>Add Book</h3>
 
-        {props.submitSuccess && <p>Submission successful! You can add another book below or go back to <Link className="link" to="/mybooks">My Books</Link>.</p>}
+        {props.submitSuccess && <div className="border bg-light d-flex justify-content-center align-items-center px-2 py-2"><p className="text-success">Submission successful! You can add another book below or go back to <Link to="/mybooks">My Books</Link>.</p></div>}
 
-        <BookForm addOrEdit={addOrEdit} addBookCB={book => addBookCB(book)} />        
+        <BookForm addOrEdit={addOrEdit} addBookCB={book => addBookCB(book)} bookToEdit={{}} />        
 
     </div>
 

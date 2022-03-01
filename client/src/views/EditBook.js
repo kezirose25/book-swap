@@ -45,7 +45,7 @@ export default function BookDetail(props) {
 
         {props.submitSuccess && <p>Update successful! You can edit more details below or go back to <Link className="link" to="/mybooks">My Books</Link>.</p>} 
         
-        <BookForm addOrEdit={addOrEdit} bookToEdit={bookToEdit} editBookCB={(book) => editBookCB(book)}/>
+        {bookToEdit && <BookForm addOrEdit={addOrEdit} bookToEdit={bookToEdit} editBookCB={(book) => editBookCB(book)}/>}
 
     </div>
   );
