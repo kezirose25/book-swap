@@ -21,12 +21,19 @@ It can be difficult to get books in English in Barcelona, especially if you pref
 
 ## Installation instructions
 
+### Setting up your local repository
+
 1. Fork the repo into your GitHub. Copy the address and run git clone to save a local version on your computer.
 2. In the terminal, cd into the project folder. Run 'yarn' to install dependencies.
 3. cd into the client folder. Run 'yarn' to install dependencies.
 4. cd back into the project folder. Run 'yarn migrate' to fill the database with dummy information.
 5. In the project folder, run 'yarn start' to start the server.
 6. cd into the client folder. Run 'yarn start' to start the client app.
+
+### Setting up your Google Books API Key
+
+1. To use the external API part of the app, you need to get a Google API key using [these instructions](https://developers.google.com/books/docs/v1/using#APIKey).
+2. Create a .env file in the client folder containing the following: REACT_APP_API_KEY=[ Your API key goes here ].
 
 ## Technologies Used
 
