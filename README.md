@@ -19,6 +19,15 @@ An app that allows booklovers to swap their used books.
 
 It can be difficult to get books in English in Barcelona, especially if you prefer to shop local. Using this app, readers can swap books in English, rather than taking up more space in their tiny apartments!
 
+## Installation instructions
+
+1. Fork the repo into your GitHub. Copy the address and run git clone to save a local version on your computer.
+2. In the terminal, cd into the project folder. Run 'yarn' to install dependencies.
+3. cd into the client folder. Run 'yarn' to install dependencies.
+4. cd back into the project folder. Run 'yarn migrate' to fill the database with dummy information.
+5. In the project folder, run 'yarn start' to start the server.
+6. cd into the client folder. Run 'yarn start' to start the client app.
+
 ## Technologies Used
 
 * Front end built with [React.js](https://reactjs.org/) and [React Router](https://reactrouter.com/)
@@ -55,10 +64,11 @@ As shown below, the users table includes only a GET route at this stage.
 ## Roadmap
 
 Features that I'd like to add to the app in the future include:
-- [] User authentication
-- [] Search functionality on the "Browse Books" view
-- [] Ability for users to save books that they are interested in
-- [] Ability for users to upload images from their computer
+
+-[] User authentication
+-[] Search functionality on the "Browse Books" view
+-[] Ability for users to save books that they are interested in
+-[] Ability for users to upload images from their computer
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
