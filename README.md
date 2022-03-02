@@ -26,9 +26,14 @@ It can be difficult to get books in English in Barcelona, especially if you pref
 1. Fork the repo into your GitHub. Copy the address and run git clone to save a local version on your computer.
 2. In the terminal, cd into the project folder. Run 'yarn' to install dependencies.
 3. cd into the client folder. Run 'yarn' to install dependencies.
-4. cd back into the project folder. Run 'yarn migrate' to fill the database with dummy information.
-5. In the project folder, run 'yarn start' to start the server.
-6. cd into the client folder. Run 'yarn start' to start the client app.
+4. cd back into the project folder. Create a .env folder with the following content (change the password if you used a different password for MySQL):
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=root
+DB_NAME=bookswap
+5. Run 'yarn migrate' to fill the database with dummy information.
+6. In the project folder, run 'yarn start' to start the server.
+7. cd into the client folder. Run 'yarn start' to start the client app.
 
 ### Setting up your Google Books API Key
 
