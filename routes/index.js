@@ -175,4 +175,91 @@ router.delete("/messages/:message_id", async (req, res) => {
   }
 });
 
+// ROUTES FOR USER_SAVED_BOOKS TABLE
+
+async function sendAllSaved(res) {
+  let results = await db('SELECT * FROM users_saved_books');
+  res.send(results.data);
+}
+
+async function ensureUserExists(req, res, next) {
+  try {
+    let results = await db(`SELECT * FROM Users WHERE userid = ${req.params.id}`);
+    if (results.data.length === 1) {
+      res.locals.user = results.data[0];
+      next();
+    } else {
+      res.status(404).send({errror: "not found"});
+    }
+  } catch (err) {
+    res.status(500).send({error: err.message});
+  }
+}
+
+// get all saved
+router.get('/saved', async function(req, res) {
+  try {
+    sendAllSaved(res);
+  } catch (err) {
+    res.status(500).send({error: err.message});
+  }
+});
+
+// get saved books by user id
+
+function joinToJson(results) {
+  let row0 = results.data[0];
+  let books = [];
+  if (row0.bookid) {
+    books = results.data.map(b => ({
+      bookid: b.bookid,
+      addedby: b.addedby,
+      title: b.title,
+      authors: b.authors,
+      imgurl: b.imgurl,
+      isbn: b.isbn,
+      genre: b.genre,
+      summary: b.summary
+    }));
+  }
+  let user = {
+    userid: row0.userid,
+    username: row0.username,
+    books
+  };
+  return user;
+}
+
+router.get('/saved/:id', ensureUserExists, async function(req, res) {
+  let user = res.locals.user;
+  try {
+    let sql = `
+    SELECT b.*, u.userid AS userid, b.bookid AS bookid
+    FROM Users AS u
+    LEFT JOIN users_saved_books AS usb ON u.userid = usb.userid
+    LEFT JOIN Books AS b ON usb.bookid = b.bookid
+    WHERE u.userid = ${user.userid}`
+    ;
+    let results = await db(sql);
+    user = joinToJson(results);
+    res.send(user);
+  } catch (err) {
+    res.status(500).send({error: err.message});
+  }
+});
+
+// // POST userid and bookid to table - with by user id?
+// router.post('/saved/1', async function(req, res){
+//   let {userid, bookid} = req.body;
+//   let sql = `
+//   INSERT INTO uers_saved_books
+//   VALUES ('${userid}', '${bookid}');
+//   SELECT LAST_INSERT_ID();
+//   `
+// })
+
+// DELETE
+
+
+
 module.exports = router;

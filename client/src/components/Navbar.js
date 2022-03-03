@@ -16,6 +16,7 @@ export default function Navbar(props) {
             <NavLink className="nav-link" to="/">Home</NavLink>
             <NavLink className="nav-link" to="/books">Browse Books</NavLink>
             <NavLink className="nav-link" to="/mybooks">My Books</NavLink>
+            <NavLink className="nav-link" to="/savedbooks">Saved Books</NavLink>
             <NavLink className="nav-link" to="/mymessages">My Messages</NavLink>
           </div>
         </div>

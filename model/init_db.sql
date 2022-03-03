@@ -1,6 +1,9 @@
-DROP TABLE IF EXISTS books;
-DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS users;
+SET foreign_key_checks = 0;
+DROP TABLE IF EXISTS `Books`;
+DROP TABLE IF EXISTS `Messages`;
+DROP TABLE IF EXISTS `Users`;
+DROP TABLE IF EXISTS users_saved_books;
+SET foreign_key_checks = 1;
 
 CREATE TABLE `Users` (
 	`userid` int NOT NULL AUTO_INCREMENT,
@@ -32,6 +35,14 @@ CREATE TABLE `Messages` (
 	PRIMARY KEY (`messageid`)
 );
 
+CREATE TABLE users_saved_books (
+	userid INT NOT NULL,
+	bookid INT NOT NULL,
+	PRIMARY KEY (userid, bookid),
+	FOREIGN KEY (userid) REFERENCES `Users`(userid),
+	FOREIGN KEY (bookid) REFERENCES `Books`(bookid)
+);
+
 INSERT INTO Users (username, wishlist) VALUES
 ("User1", "I want 50 books"),
 ("User2", "Looking for non-fiction books.");
@@ -60,3 +71,9 @@ INSERT INTO Messages (messagesubject, body, sender, recipient) VALUES
 ("Subject 3", "This is email body 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 2, 1),
 ("Subject 4", "This is email body 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 2, 1);
 
+INSERT INTO users_saved_books (userid, bookid) VALUES
+(1, 2),
+(1, 4),
+(1, 6),
+(2, 5),
+(2, 6);
