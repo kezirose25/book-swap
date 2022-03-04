@@ -35,12 +35,11 @@ CREATE TABLE `Messages` (
 	PRIMARY KEY (`messageid`)
 );
 
-CREATE TABLE users_saved_books (
+CREATE TABLE users_faved_books (
 	userid INT NOT NULL,
 	bookid INT NOT NULL,
 	PRIMARY KEY (userid, bookid),
 	FOREIGN KEY (userid) REFERENCES `Users`(userid),
-	FOREIGN KEY (bookid) REFERENCES `Books`(bookid)
 );
 
 INSERT INTO Users (username, wishlist) VALUES
@@ -71,7 +70,7 @@ INSERT INTO Messages (messagesubject, body, sender, recipient) VALUES
 ("Subject 3", "This is email body 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 2, 1),
 ("Subject 4", "This is email body 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 2, 1);
 
-INSERT INTO users_saved_books (userid, bookid) VALUES
+INSERT INTO users_faved_books (userid, bookid) VALUES
 (1, 2),
 (1, 4),
 (1, 6),

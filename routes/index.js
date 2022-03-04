@@ -177,14 +177,23 @@ router.delete("/messages/:message_id", async (req, res) => {
 
 // ROUTES FOR USER_SAVED_BOOKS TABLE
 
-async function sendAllSaved(res) {
-  let results = await db('SELECT * FROM users_saved_books');
-  res.send(results.data);
-}
+// async function sendAllFaved(res) {
+//   let results = await db('SELECT * FROM users_faved_books');
+//   res.send(results.data);
+// }
+
+// get all faved from junction table
+// router.get('/saved', async function(req, res) {
+//   try {
+//     sendAllSaved(res);
+//   } catch (err) {
+//     res.status(500).send({error: err.message});
+//   }
+// });
 
 async function ensureUserExists(req, res, next) {
   try {
-    let results = await db(`SELECT * FROM Users WHERE userid = ${req.params.id}`);
+    let results = await db(`SELECT * FROM Users WHERE userid = ${req.params.user_id}`);
     if (results.data.length === 1) {
       res.locals.user = results.data[0];
       next();
@@ -196,17 +205,7 @@ async function ensureUserExists(req, res, next) {
   }
 }
 
-// get all saved
-router.get('/saved', async function(req, res) {
-  try {
-    sendAllSaved(res);
-  } catch (err) {
-    res.status(500).send({error: err.message});
-  }
-});
-
-// get saved books by user id
-
+// get faved books from junction table by user id
 function joinToJson(results) {
   let row0 = results.data[0];
   let books = [];
@@ -230,14 +229,14 @@ function joinToJson(results) {
   return user;
 }
 
-router.get('/saved/:id', ensureUserExists, async function(req, res) {
+router.get('/users/:user_id', ensureUserExists, async function(req, res) {
   let user = res.locals.user;
   try {
     let sql = `
     SELECT b.*, u.userid AS userid, b.bookid AS bookid
     FROM Users AS u
-    LEFT JOIN users_saved_books AS usb ON u.userid = usb.userid
-    LEFT JOIN Books AS b ON usb.bookid = b.bookid
+    LEFT JOIN users_faved_books AS ufb ON u.userid = ufb.userid
+    LEFT JOIN Books AS b ON ufb.bookid = b.bookid
     WHERE u.userid = ${user.userid}`
     ;
     let results = await db(sql);
@@ -248,17 +247,45 @@ router.get('/saved/:id', ensureUserExists, async function(req, res) {
   }
 });
 
-// // POST userid and bookid to table - with by user id?
-// router.post('/saved/1', async function(req, res){
-//   let {userid, bookid} = req.body;
-//   let sql = `
-//   INSERT INTO uers_saved_books
-//   VALUES ('${userid}', '${bookid}');
-//   SELECT LAST_INSERT_ID();
-//   `
-// })
+// POST userid and bookid to junction table - by user id that's logged in (1)
+router.post('/users/:user_id/fave', async function(req, res){
+  let user_id = req.params.user_id;
+  let {bookid} = req.body;
+  let sql = `
+  INSERT INTO users_faved_books (userid, bookid)
+  VALUES (${user_id}, ${bookid});
+  `;
+  try {
+    let results = await db(sql);
+    user = joinToJson(results);
+    res.send(user);
+  } catch (err) {
+    res.status(500).send({error: err.message});
+  }
+});
 
-// DELETE
+
+// DELETE bookid and userid from junction table
+
+router.delete("/users/:user_id/fave/:book_id", async (req, res) => {
+  let book_id = req.params.book_id;
+  let user_id = req.params.user_id;
+  let sqlCheckID = `SELECT * FROM users_faved_books WHERE bookid = ${book_id} AND userid = ${user_id}`;
+  let sqlDelete = `DELETE FROM users_faved_books WHERE bookid = ${book_id} AND userid = ${user_id}`;
+  try {
+    let result = await db(sqlCheckID);
+    if (result.data.length === 0) {
+      res.status(404).send({ error: "Book not found!" });
+    } else {
+      await db(sqlDelete);
+      let result = await db("select * from users_faved_books");
+      let books = result.data;
+      res.status(201).send(books);
+    }
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 
 
 
