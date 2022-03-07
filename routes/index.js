@@ -207,6 +207,7 @@ async function ensureUserExists(req, res, next) {
 
 // get faved books from junction table by user id
 function joinToJson(results) {
+  console.log("test", results);
   let row0 = results.data[0];
   let books = [];
   if (row0.bookid) {
@@ -247,7 +248,7 @@ router.get('/users/:user_id', ensureUserExists, async function(req, res) {
   }
 });
 
-// POST userid and bookid to junction table - by user id that's logged in (1)
+// POST userid and bookid to junction table - by user id that's logged in
 router.post('/users/:user_id/fave', async function(req, res){
   let user_id = req.params.user_id;
   let {bookid} = req.body;
@@ -255,10 +256,12 @@ router.post('/users/:user_id/fave', async function(req, res){
   INSERT INTO users_faved_books (userid, bookid)
   VALUES (${user_id}, ${bookid});
   `;
+  console.log("test", req.body);
   try {
     let results = await db(sql);
-    user = joinToJson(results);
-    res.send(user);
+    // user = joinToJson(results);
+    // res.send(user);
+    res.send("Added to faves");
   } catch (err) {
     res.status(500).send({error: err.message});
   }

@@ -223,25 +223,23 @@ async function getFaves() {
 }
 
 // ADD new fave
-// const addNewFave = async (newFave) => {
-//   newFave.user_id = currentUser;
-//   let options = {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(newFave)
-//   };
-//   try {
-//     let response = await fetch(`/users/${currentUser}/fave`, options); //?
-//     if (response.ok) {
-//       let user = await response.json();
-//       setFaves(user.books);
-//     } else {
-//       console.log(`Server error: ${response.status} ${response.statusText}`);
-//     }
-//   } catch (err) {
-//     console.log(`Server error: ${err.message}`);
-//   }
-// }
+async function addNewFave(fave) {
+  let options = {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({bookid: fave})
+  }
+  try {
+    let response = await fetch(`/users/${currentUser}/fave`, options);
+    if (response.ok) {
+      getFaves();
+    } else {
+      console.log(`Server error: ${response.status} ${response.statusText}`);
+    }
+  } catch (err) {
+    console.log(`Server error: ${err.message}`);
+  }
+}
 
 
   return (
@@ -253,8 +251,8 @@ async function getFaves() {
         </div>
         <Routes>
                 <Route path="/" element={<HomeView />} />
-                <Route path="books" element={<BookList books={books} />} />
-                <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)}/>} />
+                <Route path="books" element={<BookList books={books} addNewFave={fave => addNewFave(fave)}/>} />
+                <Route path="mybooks" element={<MyBooks books={books} currentUser={currentUser} deleteBook={bookID => deleteBook(bookID)} />} />
                 <Route path="mybooks/addnew" element={<AddBook addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
                 <Route path="mybooks/edit/:id" element={<EditBook submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()} books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
 
