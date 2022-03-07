@@ -1,4 +1,4 @@
-#book-list {
+#faves-list {
     width: 70vw;
     margin: auto;
 }
@@ -9,11 +9,7 @@
     margin-bottom: 5px;
 }
 
-.invisible {
-    display: none;
-}
-
-  .badge {
+.badge {
     cursor: pointer;
     background-color: rgb(59, 59, 201);
     margin: 4px;

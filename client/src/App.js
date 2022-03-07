@@ -11,7 +11,7 @@ import MyBooks from './views/MyBooks.js';
 import EditBook from './views/EditBook.js';
 import MyMessages from './views/MyMessages.js';
 import AddBook from './views/AddBook.js';
-import SavedBooks from './views/SavedBooks';
+import FavedBooks from './views/FavedBooks';
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -19,6 +19,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [currentUser, setCurrentUser] = useState(1); // Proxy for logged-in user
+  const [faves, setFaves] = useState([]);
   
   useEffect(() => {
     getBooks();
@@ -38,6 +39,7 @@ function App() {
       console.log(`Server error: ${err.message}`);
     }
   }
+
 
   useEffect(() => {
     getMessages();
@@ -201,6 +203,46 @@ const deleteMessage = async id => {
   }
 };
 
+// GET all faved books - by id??
+useEffect(() => {
+  getFaves();
+}, []);
+
+async function getFaves() {
+  try {
+    let response = await fetch(`/users/${currentUser}`);//unsure what to put in url
+    if (response.ok) {
+      let user = await response.json();
+      setFaves(user.books);
+    } else {
+      console.log(`Server error: ${response.status} ${response.statusText}`);
+    }
+  } catch (err) {
+    console.log(`Server error: ${err.message}`);
+  }
+}
+
+// ADD new fave
+// const addNewFave = async (newFave) => {
+//   newFave.user_id = currentUser;
+//   let options = {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(newFave)
+//   };
+//   try {
+//     let response = await fetch(`/users/${currentUser}/fave`, options); //?
+//     if (response.ok) {
+//       let user = await response.json();
+//       setFaves(user.books);
+//     } else {
+//       console.log(`Server error: ${response.status} ${response.statusText}`);
+//     }
+//   } catch (err) {
+//     console.log(`Server error: ${err.message}`);
+//   }
+// }
+
 
   return (
     <div className="App">
@@ -216,7 +258,7 @@ const deleteMessage = async id => {
                 <Route path="mybooks/addnew" element={<AddBook addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
                 <Route path="mybooks/edit/:id" element={<EditBook submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()} books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
 
-                <Route path="savedbooks" element={<SavedBooks/>} />
+                <Route path="favedbooks" element={<FavedBooks faves={faves} currentUser={currentUser}/>}/>
 
                 <Route path="mymessages" element={<MyMessages resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
                 <Route path="books/:id" element={<BookDetail resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />

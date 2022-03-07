@@ -46,6 +46,7 @@ export default function BookList(props) {
               className={`${book.genre === filterGenre || filterGenre === "All" ? "col-lg-3 col-md-5 m-3" : "invisible"}`}
               key={book.bookid}>
                 <div className="card">
+                <div className="badge badge-pill badge-primary">Save</div>
                   <img src={book.imgurl} className="card-img-top" alt={book.title} />
                   <div className="card-body">
                     <h5 className="card-title">{book.title}</h5>
@@ -57,7 +58,5 @@ export default function BookList(props) {
             ))}
         </div>
   </div>
-    
-    
   );
 }
