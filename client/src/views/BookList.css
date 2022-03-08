@@ -14,9 +14,56 @@
 }
 
   .badge {
+    position: absolute;
+    right: 10px;
+    top: 306px;
     cursor: pointer;
     background-color: rgb(59, 59, 201);
     margin: 4px;
+    text-align: center;
     border-radius: 32px;
     width: 60px;
+    border-color: rgb(59, 59, 201);
   }
+
+  .avatar {
+    border: 0.3rem solid rgba(#fff, 0.3);
+    margin-top: -4.5rem;
+    margin-bottom: 10rem;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+
+  .saveButton {
+    margin: 0, auto;
+  }
+
+  .btn-secondary:active {
+    opacity: 50;
+  }
+
+  /* .card-notify-year {
+    position: absolute;
+    right: 10px;
+    top: 280px;
+    background: #ff4444;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;      
+    font-size: 14px;      
+    width: 50px;
+    height: 50px;    
+    padding: 15px 0 0 0;
+    cursor: pointer;
+  }
+
+  .card-notify-year:hover {
+    background-color: rgb(59, 59, 201);
+    color: white;
+    border: 0;
+  }
+
+  .card-notify-year:active {     
+    opacity: 0;    
+} */

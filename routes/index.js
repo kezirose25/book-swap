@@ -19,14 +19,30 @@ router.get("/users", (req, res) => {
 
 // ROUTES FOR BOOKS TABLE
 
-// Get all books
+// Get all books ORIGINAL
+// router.get("/books", (req, res) => {
+//   db("SELECT * FROM books;")
+//     .then(results => {
+//       res.send(results.data);
+//     })
+//     .catch(err => res.status(500).send(err));
+// }); 
+
+// Get all books AMENDED
 router.get("/books", (req, res) => {
-  db("SELECT * FROM books;")
+  db(`SELECT books.*, users_faved_books.userid
+      AS isfave
+      FROM books  
+      LEFT JOIN users_faved_books
+      ON Books.bookid = users_faved_books.bookid;`)
     .then(results => {
       res.send(results.data);
     })
     .catch(err => res.status(500).send(err));
-});
+}); 
+
+//change select to do left join on junction tbl to check book is there. If user id is there, book is faved
+// SELECT books.*, junctiontable.userid AS isfave (null if book not faved) FROM books LEFT JOIN junctbl ON books.bookid = junctb.bookid (if found, userid =1)
 
 // Get book by ID
 router.get("/books/:book_id", async (req, res) => {
@@ -281,7 +297,7 @@ router.delete("/users/:user_id/fave/:book_id", async (req, res) => {
       res.status(404).send({ error: "Book not found!" });
     } else {
       await db(sqlDelete);
-      let result = await db("select * from users_faved_books");
+      let result = await db(`SELECT * from users_faved_books WHERE userid = ${user_id}`);
       let books = result.data;
       res.status(201).send(books);
     }

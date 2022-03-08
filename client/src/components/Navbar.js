@@ -14,7 +14,7 @@ export default function Navbar(props) {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <NavLink className="nav-link" to="/">Home</NavLink>
-            <NavLink className="nav-link" to="/books">Browse Books</NavLink>
+            <NavLink className="nav-link"  to="/books">Browse Books</NavLink>
             <NavLink className="nav-link" to="/mybooks">My Books</NavLink>
             <NavLink className="nav-link" to="/favedbooks">Faved Books</NavLink>
             <NavLink className="nav-link" to="/mymessages">My Messages</NavLink>

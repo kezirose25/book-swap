@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import "./BookList.css";
 
 export default function BookList(props) {
   const [filterGenre, setFilterGenre] = useState("All");
-  // use state for value of book.bookid?
+  const [btnOp, setbtnOp] = useState("high");
 
   // Uses Set class to generate list of genres without repeating items
   let genres = [...new Set(props.books.map(book => book.genre))].filter(genre => genre != 'Genre not specified');
@@ -23,9 +23,8 @@ export default function BookList(props) {
     props.addNewFave(e.target.value);
   }
 
-
-  function handleChange(e) {
-
+  function refreshPage() {
+    window.location.reload(false);
   }
 
   return (
@@ -52,8 +51,6 @@ export default function BookList(props) {
         </div>
       </div>
 
-
-
         <hr className="mx-auto"/>
         <div className="row justify-content-between">
             {props.books.map(book => (
@@ -61,14 +58,19 @@ export default function BookList(props) {
               className={`${book.genre === filterGenre || filterGenre === "All" ? "col-lg-3 col-md-5 m-3" : "invisible"}`}
               key={book.bookid}>
                 <div className="card">
-
-                <button className="badge badge-pill badge-primary" value={book.bookid} onClick={() => props.addNewFave(book.bookid)} onChange={handleChange}>Add to Faves</button>
-
                   <img src={book.imgurl} className="card-img-top" alt={book.title} />
                   <div className="card-body">
                     <h5 className="card-title">{book.title}</h5>
                     <p className="card-text">{book.authors}</p>
                     <Link className="btn btn-primary" to={'/books/'+book.bookid}>View details</Link>
+
+                    {book.isfave === null ? (
+                      <button 
+                      className="btn btn-secondary" value={book.bookid} onClick={() => {props.addNewFave(book.bookid); refreshPage(true)}} >Fave</button>)
+                      :
+                      (<div>Faved</div>
+                    )}
+
                   </div>
                 </div>                
               </div>

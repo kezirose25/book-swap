@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {Routes, Route} from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar.js';
-
 import BookDetail from './views/BookDetail.js';
 import BookList from './views/BookList.js';
 import Error404View from './views/Error404View.js';
@@ -12,6 +11,7 @@ import EditBook from './views/EditBook.js';
 import MyMessages from './views/MyMessages.js';
 import AddBook from './views/AddBook.js';
 import FavedBooks from './views/FavedBooks';
+import FavedBookDetail from './views/FavedBookDetail';
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -241,6 +241,23 @@ async function addNewFave(fave) {
   }
 }
 
+// DELETE a fave
+async function deleteFave(fave) {
+  let options = {
+    method: "DELETE",
+  }
+  try {
+    let response = await fetch(`/users/${currentUser}/fave/${fave}`, options);
+    if (response.ok) {
+      getFaves();
+    } else {
+      console.log(`Server error: ${response.status} ${response.statusText}`);
+    }
+  } catch (err) {
+    console.log(`Server error: ${err.message}`);
+  }
+}
+
 
   return (
     <div className="App">
@@ -256,10 +273,11 @@ async function addNewFave(fave) {
                 <Route path="mybooks/addnew" element={<AddBook addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
                 <Route path="mybooks/edit/:id" element={<EditBook submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()} books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
 
-                <Route path="favedbooks" element={<FavedBooks faves={faves} currentUser={currentUser}/>}/>
+                <Route path="favedbooks" element={<FavedBooks faves={faves} currentUser={currentUser} deleteFave={fave => deleteFave(fave)}/>}/>
 
                 <Route path="mymessages" element={<MyMessages resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
                 <Route path="books/:id" element={<BookDetail resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
+                <Route path="favedbooks/:id" element={<FavedBookDetail resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
                 <Route path="*" element={<Error404View />} />
         </Routes>
 
