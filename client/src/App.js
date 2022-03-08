@@ -233,6 +233,7 @@ async function addNewFave(fave) {
     let response = await fetch(`/users/${currentUser}/fave`, options);
     if (response.ok) {
       getFaves();
+      getBooks();
     } else {
       console.log(`Server error: ${response.status} ${response.statusText}`);
     }
@@ -250,6 +251,7 @@ async function deleteFave(fave) {
     let response = await fetch(`/users/${currentUser}/fave/${fave}`, options);
     if (response.ok) {
       getFaves();
+      getBooks();
     } else {
       console.log(`Server error: ${response.status} ${response.statusText}`);
     }
@@ -273,7 +275,7 @@ async function deleteFave(fave) {
                 <Route path="mybooks/addnew" element={<AddBook addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
                 <Route path="mybooks/edit/:id" element={<EditBook submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()} books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
 
-                <Route path="favedbooks" element={<FavedBooks faves={faves} currentUser={currentUser} deleteFave={fave => deleteFave(fave)}/>}/>
+                <Route path="favedbooks" element={<FavedBooks faves={faves} books={books}currentUser={currentUser} deleteFave={fave => deleteFave(fave)}/>}/>
 
                 <Route path="mymessages" element={<MyMessages resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
                 <Route path="books/:id" element={<BookDetail resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />

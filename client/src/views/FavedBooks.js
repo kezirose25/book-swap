@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import "./FavedBooks.css";
 
@@ -8,9 +8,12 @@ function FavedBooks(props) {
   function handleChange(e) {
   }
 
-  function refreshPage() {
-    window.location.reload(false);
-  }
+  useEffect(() => {
+  }, [props.books]);
+
+  // function refreshPage() {
+  //   window.location.reload(false);
+  // }
 
     return (
         <div className="container" id="faves-list">
@@ -27,7 +30,7 @@ function FavedBooks(props) {
                     <h5 className="card-title">{f.title}</h5>
                     <p className="card-text">{f.authors}</p>
                     <Link className="btn btn-primary" to={'/favedbooks/'+f.bookid}>View details</Link>
-                <button className="btn btn-secondary" value={f.bookid} onClick={() => {props.deleteFave(f.bookid); refreshPage(true)}} onChange={handleChange}>Unfave</button>
+                <button className="btn btn-secondary" value={f.bookid} onClick={() => props.deleteFave(f.bookid)} onChange={handleChange}>Unfave</button>
                   </div>
                 </div>                
               </div>

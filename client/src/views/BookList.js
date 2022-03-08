@@ -4,7 +4,9 @@ import "./BookList.css";
 
 export default function BookList(props) {
   const [filterGenre, setFilterGenre] = useState("All");
-  const [btnOp, setbtnOp] = useState("high");
+
+  useEffect(() => {
+  }, [props.books]);
 
   // Uses Set class to generate list of genres without repeating items
   let genres = [...new Set(props.books.map(book => book.genre))].filter(genre => genre != 'Genre not specified');
@@ -23,8 +25,11 @@ export default function BookList(props) {
     props.addNewFave(e.target.value);
   }
 
-  function refreshPage() {
-    window.location.reload(false);
+  // function refreshPage() {
+  //   window.location.reload(false);
+  // }
+
+  function handleChange(e) {
   }
 
   return (
@@ -66,7 +71,9 @@ export default function BookList(props) {
 
                     {book.isfave === null ? (
                       <button 
-                      className="btn btn-secondary" value={book.bookid} onClick={() => {props.addNewFave(book.bookid); refreshPage(true)}} >Fave</button>)
+                      className="btn btn-secondary"
+                      value={book.bookid}
+                      onClick={() => props.addNewFave(book.bookid)}>Fave</button>)
                       :
                       (<div>Faved</div>
                     )}
