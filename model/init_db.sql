@@ -73,6 +73,4 @@ INSERT INTO Messages (messagesubject, body, sender, recipient) VALUES
 INSERT INTO users_faved_books (userid, bookid) VALUES
 (1, 2),
 (1, 4),
-(1, 6),
-(2, 5),
-(2, 6);
+(1, 6);

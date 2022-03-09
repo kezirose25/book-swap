@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import "./BookList.css";
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import IconButton from '@mui/material/IconButton';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 
 export default function BookList(props) {
   const [filterGenre, setFilterGenre] = useState("All");
@@ -24,10 +27,6 @@ export default function BookList(props) {
     console.log("clicked");
     props.addNewFave(e.target.value);
   }
-
-  // function refreshPage() {
-  //   window.location.reload(false);
-  // }
 
   function handleChange(e) {
   }
@@ -70,19 +69,26 @@ export default function BookList(props) {
                     <Link className="btn btn-primary" to={'/books/'+book.bookid}>View details</Link>
 
                     {book.isfave === null ? (
-                      <button 
+                      
+                      <IconButton aria-label="delete"
                       className="btn btn-secondary"
-                      value={book.bookid}
-                      onClick={() => props.addNewFave(book.bookid)}>Fave</button>)
+                      style={{ color: '#0072ea' }} 
+                      value={book.bookid} 
+                      onClick={() => props.addNewFave(book.bookid)}>
+                        <BookmarkAddIcon fontSize="large"/>
+                      </IconButton>)
                       :
-                      (<div>Faved</div>
-                    )}
+                      (<BookmarkAddedIcon fontSize="large"
+                      color="disabled"
+                      style={{ color: '#eeeeee' }}/>)
+                      }
 
                   </div>
                 </div>                
               </div>
             ))}
         </div>
+
   </div>
   );
 }

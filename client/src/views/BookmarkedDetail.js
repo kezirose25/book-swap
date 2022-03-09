@@ -63,7 +63,7 @@ export default function BookDetail(props) {
 
   return (
     <div id="highlighted-book" className="px-5 py-5 rounded-3">
-      <div className="d-flex justify-content-end mb-3"><Link to="/favedbooks" className="btn btn-primary">Back to Faved Books</Link></div>
+      <div className="d-flex justify-content-end mb-3"><Link to="/bookmarked" className="btn btn-primary">Back to Faved Books</Link></div>
         
        {props.submitSuccess && (<div className="border bg-body d-flex justify-content-center align-items-center px-2 py-2 mb-4"><p id="submit-text" className="text-success">Message sent!</p></div>)}
 

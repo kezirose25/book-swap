@@ -35,8 +35,10 @@
     object-fit: cover;
   }
 
-  .saveButton {
-    margin: 0, auto;
+  .btn-primary {
+    margin-right: 10px;
+    margin-bottom: 6px;
+    margin-top: 4px;
   }
 
   .btn-secondary:active {

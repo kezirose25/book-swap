@@ -3,7 +3,6 @@ import {Link, useParams} from "react-router-dom";
 import Error404View from './Error404View.js';
 import NewMessage from "../components/NewMessage.js";
 import LoadingScreen from '../components/LoadingScreen.js';
-
 import "./BookDetail.css";
 
 export default function BookDetail(props) {
@@ -86,7 +85,8 @@ export default function BookDetail(props) {
                 <button className="btn btn-primary" onClick={e => handleOpen(e)}>Propose a swap!</button>
                 </div>
               )
-              }   
+              } 
+
         </div>
 
         </div>

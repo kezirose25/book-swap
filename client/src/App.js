@@ -10,8 +10,8 @@ import MyBooks from './views/MyBooks.js';
 import EditBook from './views/EditBook.js';
 import MyMessages from './views/MyMessages.js';
 import AddBook from './views/AddBook.js';
-import FavedBooks from './views/FavedBooks';
-import FavedBookDetail from './views/FavedBookDetail';
+import Bookmarked from './views/Bookmarked';
+import BookmarkedDetail from './views/BookmarkedDetail';
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -275,11 +275,11 @@ async function deleteFave(fave) {
                 <Route path="mybooks/addnew" element={<AddBook addBookCB={(newBook) => addNewBook(newBook)} submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()}/>} />
                 <Route path="mybooks/edit/:id" element={<EditBook submitSuccess={submitSuccess} resetSubmitSuccess={() => resetSubmit()} books={books} editBook={(book, editID) => editBook(book, editID)}/>} />
 
-                <Route path="favedbooks" element={<FavedBooks faves={faves} books={books}currentUser={currentUser} deleteFave={fave => deleteFave(fave)}/>}/>
+                <Route path="bookmarked" element={<Bookmarked faves={faves} books={books}currentUser={currentUser} deleteFave={fave => deleteFave(fave)}/>}/>
 
                 <Route path="mymessages" element={<MyMessages resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} currentUser={currentUser} messages={messages} deleteMessage={messageID => deleteMessage(messageID)} addNewMessage={message => addNewMessage(message)} />} />
                 <Route path="books/:id" element={<BookDetail resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
-                <Route path="favedbooks/:id" element={<FavedBookDetail resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
+                <Route path="bookmarked/:id" element={<BookmarkedDetail resetSubmitSuccess={() => resetSubmit()} submitSuccess={submitSuccess} books={books} currentUser={currentUser} addNewMessage={message => addNewMessage(message)}/>} />
                 <Route path="*" element={<Error404View />} />
         </Routes>
 

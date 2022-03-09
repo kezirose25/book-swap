@@ -16,3 +16,9 @@
     border-radius: 32px;
     width: 60px;
   }
+
+  .btn-primary {
+    margin-right: 10px;
+    margin-bottom: 6px;
+    margin-top: 4px;
+  }
